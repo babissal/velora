@@ -134,6 +134,7 @@
 
       state.x = nx;
       state.y = ny;
+      state.stats.steps++;
       this.render();
 
       /* Did a trainer just spot us? Their challenge takes priority. */

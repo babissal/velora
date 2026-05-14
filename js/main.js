@@ -101,6 +101,7 @@
   /* ===== Pause menu and pop-up panels ===== */
   function wireMenus() {
     /* Pause menu buttons */
+    el("menu-card").addEventListener("click", function () { window.Menus.openCard(); });
     el("menu-party").addEventListener("click", function () { window.Menus.openParty(); });
     el("menu-bag").addEventListener("click", function () { window.Menus.openBag(); });
     el("menu-dex").addEventListener("click", function () { window.Menus.openDex(); });
@@ -127,6 +128,7 @@
     el("dex-close").addEventListener("click", function () { Game.closeOverlay("dex-panel"); });
     el("map-close").addEventListener("click", function () { Game.closeOverlay("map-panel"); });
     el("types-close").addEventListener("click", function () { Game.closeOverlay("types-panel"); });
+    el("card-close").addEventListener("click", function () { Game.closeOverlay("card-panel"); });
     el("shop-close").addEventListener("click", function () { Game.closeOverlay("shop-panel"); });
 
     /* Clicking the dialog box advances the text */
@@ -220,6 +222,16 @@
       document.addEventListener("keydown", routeKey);
       document.addEventListener("keydown", unlockAudioOnce);
       document.addEventListener("pointerdown", unlockAudioOnce);
+
+      /* Tick the playtime counter once a second while a game is in progress. */
+      setInterval(function () {
+        if (Game.state &&
+            Game.currentScreen !== "title-screen" &&
+            Game.currentScreen !== "starter-screen") {
+          Game.state.stats.playSeconds++;
+        }
+      }, 1000);
+
       Game.showScreen("title-screen");
     });
   }

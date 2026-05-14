@@ -857,6 +857,32 @@
       if (strip) buildRegion(strip, true);
     },
 
+    /* ---- Trainer card: a summary of the player's adventure ---- */
+    openCard: function () {
+      const s = Game.state;
+      const stats = s.stats;
+      const badges = (s.flags.gymDefeated ? 1 : 0) + (s.flags.gym2Defeated ? 1 : 0);
+      const totalSpecies = Object.keys(Data.SPECIES).length;
+
+      const sec = stats.playSeconds || 0;
+      const playtime = Math.floor(sec / 3600) + "h " + (Math.floor(sec / 60) % 60) + "m";
+
+      function row(label, value) {
+        return "<div class='card-row'><span>" + label + "</span><span>" + value + "</span></div>";
+      }
+
+      el("card-content").innerHTML =
+        row("Badges", badges + " / 2") +
+        row("Coins", s.money) +
+        row("Dex caught", s.dex.caught.length + " / " + totalSpecies) +
+        row("Party", s.party.length + " / 6") +
+        row("Steps taken", stats.steps || 0) +
+        row("Battles won", stats.battlesWon || 0) +
+        row("Playtime", playtime);
+
+      Game.openOverlay("card-panel");
+    },
+
     /* ---- Type chart: a reference grid of the damage multipliers ---- */
     openTypes: function () {
       const ABBREV = { Normal: "Nrm", Ember: "Emb", Aqua: "Aqa", Leaf: "Lef", Spark: "Spk" };
