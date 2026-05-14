@@ -98,6 +98,7 @@
 
     /* Close buttons on each panel */
     el("party-close").addEventListener("click", function () { Game.closeOverlay("party-panel"); });
+    el("creature-close").addEventListener("click", function () { Game.closeOverlay("creature-panel"); });
     el("bag-close").addEventListener("click", function () { Game.closeOverlay("bag-panel"); });
     el("dex-close").addEventListener("click", function () { Game.closeOverlay("dex-panel"); });
     el("map-close").addEventListener("click", function () { Game.closeOverlay("map-panel"); });
