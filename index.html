@@ -91,6 +91,7 @@
     <div id="menu-overlay" class="overlay hidden">
       <div class="panel small-panel">
         <h3>Menu</h3>
+        <button id="menu-card" class="btn wide">Card</button>
         <button id="menu-party" class="btn wide">Party</button>
         <button id="menu-bag" class="btn wide">Bag</button>
         <button id="menu-dex" class="btn wide">Dex</button>
@@ -153,6 +154,15 @@
         <p class="dex-note centered">Damage dealt by the attacking type (row) to the defending type (column).</p>
         <div id="types-grid" class="types-grid"></div>
         <button id="types-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Trainer card panel -->
+    <div id="card-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Trainer Card</h3>
+        <div id="card-content"></div>
+        <button id="card-close" class="btn wide back-btn">Close</button>
       </div>
     </div>
 

@@ -151,6 +151,7 @@
       if (!Game.state.flags.defeatedTrainers) Game.state.flags.defeatedTrainers = [];
       if (!Game.state.flags.pickedItems) Game.state.flags.pickedItems = [];
       if (!Game.state.dex) Game.state.dex = { seen: [], caught: [] };
+      if (!Game.state.stats) Game.state.stats = { steps: 0, battlesWon: 0, playSeconds: 0 };
       /* Older saves predate status / pending moves / move PP — backfill. */
       Game.state.party.concat(Game.state.storage).forEach(function (c) {
         if (c.status === undefined) c.status = null;
@@ -180,6 +181,7 @@
       facing: "down",
       flags: { gymDefeated: false, gym2Defeated: false, defeatedTrainers: [], pickedItems: [] },
       dex: { seen: [], caught: [] },
+      stats: { steps: 0, battlesWon: 0, playSeconds: 0 },
     };
     Game.recordCaught(starterId);
     Game.save();
@@ -308,6 +310,7 @@
 
     if (result === "win") {
       Game.state.money += battle.moneyReward;
+      Game.state.stats.battlesWon++;
 
       /* Remember any trainer we just beat so they don't rematch. */
       if (trainerId && Game.state.flags.defeatedTrainers.indexOf(trainerId) === -1) {

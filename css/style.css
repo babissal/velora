@@ -756,6 +756,20 @@ body {
 .move-row strong { display: block; }
 .move-row .move-detail { font-size: 11px; }
 
+/* ===== Trainer card panel ===== */
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  background: #f4f0e0;
+  color: #1b2b1b;
+  border: 2px solid #1b2b1b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+.card-row span:last-child { color: #9a6b00; }
+
 /* ===== Type chart panel ===== */
 .types-grid {
   display: grid;
