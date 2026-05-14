@@ -6,6 +6,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* touch-action does not inherit, so set it on every element — otherwise
+     double-tap-to-zoom still fires on the gaps between touch controls. */
+  touch-action: manipulation;
 }
 
 /* Overworld tile size — shrinks on small screens so the map fits. */
