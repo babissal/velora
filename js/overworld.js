@@ -54,20 +54,37 @@
       if (window.Menus) window.Menus.renderOverworldMap();
     },
 
+    /* Perform a control action: "up" | "down" | "left" | "right" | "interact".
+       Shared by the keyboard and the on-screen touch buttons. */
+    press: function (action) {
+      const Game = window.Game;
+      if (!Game.state) return;
+      if (Game.dialogActive() || Game.topOverlay()) return;
+      if (Game.currentScreen !== "overworld-screen") return;
+
+      if (action === "interact") { this.interact(); return; }
+
+      let dx = 0, dy = 0;
+      if (action === "up") dy = -1;
+      else if (action === "down") dy = 1;
+      else if (action === "left") dx = -1;
+      else if (action === "right") dx = 1;
+      else return;
+      this.tryMove(dx, dy, action);
+    },
+
     /* Handle a key press while the overworld is the active screen. */
     handleKey: function (e) {
       const key = e.key;
-      let dx = 0, dy = 0, facing = null;
-
-      if (key === "ArrowUp" || key === "w" || key === "W") { dy = -1; facing = "up"; }
-      else if (key === "ArrowDown" || key === "s" || key === "S") { dy = 1; facing = "down"; }
-      else if (key === "ArrowLeft" || key === "a" || key === "A") { dx = -1; facing = "left"; }
-      else if (key === "ArrowRight" || key === "d" || key === "D") { dx = 1; facing = "right"; }
-      else if (key === " " || key === "Enter") { e.preventDefault(); this.interact(); return; }
+      let action = null;
+      if (key === "ArrowUp" || key === "w" || key === "W") action = "up";
+      else if (key === "ArrowDown" || key === "s" || key === "S") action = "down";
+      else if (key === "ArrowLeft" || key === "a" || key === "A") action = "left";
+      else if (key === "ArrowRight" || key === "d" || key === "D") action = "right";
+      else if (key === " " || key === "Enter") action = "interact";
       else return;
-
       e.preventDefault();
-      this.tryMove(dx, dy, facing);
+      this.press(action);
     },
 
     /* Try to move the player by (dx, dy). Updates facing even if the

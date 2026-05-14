@@ -168,6 +168,49 @@ body {
   margin-top: 8px;
 }
 
+/* ===== On-screen touch controls ===== */
+.touch-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 4px 6px;
+}
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(3, 48px);
+  gap: 3px;
+}
+.dpad-btn,
+.touch-a {
+  font-family: inherit;
+  font-weight: bold;
+  background: #ffe27a;
+  color: #1b2b1b;
+  border: 3px solid #1b2b1b;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.dpad-btn { font-size: 16px; }
+.dpad-btn:active,
+.touch-a:active { background: #ffd24a; transform: translateY(2px); }
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 3; }
+.touch-a {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  font-size: 26px;
+  background: #ff9a8a;
+}
+.touch-a:active { background: #ff8068; }
+
 
 /* ===== Battle screen ===== */
 .battlefield {

@@ -120,6 +120,16 @@
 
     /* The on-screen "Menu" button in the overworld HUD */
     el("hud-menu-btn").addEventListener("click", openPauseMenu);
+
+    /* On-screen touch controls — the D-pad and interact button */
+    document.querySelectorAll(".dpad-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        window.Overworld.press(btn.getAttribute("data-dir"));
+      });
+    });
+    el("touch-interact").addEventListener("click", function () {
+      window.Overworld.press("interact");
+    });
   }
 
   function openPauseMenu() {
