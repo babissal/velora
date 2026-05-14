@@ -739,6 +739,35 @@ body {
 .move-row strong { display: block; }
 .move-row .move-detail { font-size: 11px; }
 
+/* ===== Type chart panel ===== */
+.types-grid {
+  display: grid;
+  grid-template-columns: auto repeat(5, 1fr);
+  gap: 3px;
+  margin-bottom: 12px;
+}
+.type-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 2px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  color: #1b2b1b;
+  text-align: center;
+}
+.type-head { border: 2px solid #1b2b1b; }
+.type-corner {
+  background: #1f3a1f;
+  color: #cfe0cf;
+  font-size: 8px;
+  font-weight: normal;
+}
+.type-mult { background: #f4f0e0; }
+.type-strong { background: #8fd06f; }
+.type-weak { background: #e89a8a; }
+
 /* Learn-a-move panel */
 .learn-newmove {
   border: 3px solid #1b2b1b;
