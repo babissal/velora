@@ -514,5 +514,16 @@
       fn() + "</svg>";
   }
 
-  window.TileArt = { decor: decorSVG };
+  /* A collectible item lying on the ground — a small shiny orb. */
+  function itemSVG() {
+    return '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" class="item-svg">' +
+      '<ellipse cx="20" cy="32" rx="7" ry="2.4" fill="rgba(0,0,0,0.2)"/>' +
+      '<circle cx="20" cy="19" r="8.5" fill="#ffd24a" stroke="#9a6b00" stroke-width="2.2"/>' +
+      '<rect x="11.5" y="17.6" width="17" height="2.8" fill="#9a6b00"/>' +
+      '<circle cx="20" cy="19" r="2.6" fill="#fff" stroke="#9a6b00" stroke-width="1.4"/>' +
+      '<circle cx="16.6" cy="15.4" r="2" fill="rgba(255,255,255,0.75)"/>' +
+      "</svg>";
+  }
+
+  window.TileArt = { decor: decorSVG, item: itemSVG };
 })();

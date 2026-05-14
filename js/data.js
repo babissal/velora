@@ -626,6 +626,9 @@ const MAPS = {
         "The Healing Center to the northwest mends your whole team for free. Never be shy about stopping in.",
       ] },
     },
+    groundItems: [
+      { x: 1, y: 1, item: "potion" },
+    ],
     encounters: null,
   },
 
@@ -658,6 +661,10 @@ const MAPS = {
         "Wear one down in battle before you throw a Capture Orb — a tired creature is far easier to catch.",
       ] },
     },
+    groundItems: [
+      { x: 8, y: 1, item: "super_potion" },
+      { x: 1, y: 9, item: "capture_orb" },
+    ],
     encounters: {
       species: [
         "nibblet", "nibblet", "nibblet", "pebblit", "pebblit",
@@ -757,6 +764,10 @@ const MAPS = {
         "Spark creatures up here are quick. Aqua types dread them — but Leaf types just shrug off the jolts.",
       ] },
     },
+    groundItems: [
+      { x: 10, y: 4, item: "great_orb" },
+      { x: 1, y: 10, item: "revive" },
+    ],
     encounters: {
       species: [
         "zaplet", "zaplet", "mossling", "mossling",

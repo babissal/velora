@@ -151,6 +151,18 @@ body {
   box-shadow: inset 0 0 0 3px #7a4a14;
 }
 
+/* A collectible item lying on the ground — gently bobs to catch the eye. */
+.item-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: item-bob 1.3s ease-in-out infinite;
+}
+@keyframes item-bob {
+  0%, 100% { transform: translateY(1px); }
+  50%      { transform: translateY(-2px); }
+}
+
 /* Drawn people — the player and the NPCs you meet. */
 .person {
   width: 100%;

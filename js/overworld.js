@@ -35,6 +35,12 @@
             cell.innerHTML = window.CharacterArt.npc(npc.kind, npc.trainer, npc.look);
           } else if (tile.decor) {
             cell.innerHTML = window.TileArt.decor(tile.decor);
+          } else if (map.groundItems) {
+            const gi = map.groundItems.find(function (g) { return g.x === x && g.y === y; });
+            if (gi && state.flags.pickedItems.indexOf(state.map + ":" + x + "," + y) === -1) {
+              cell.classList.add("tile-item");
+              cell.innerHTML = window.TileArt.item();
+            }
           }
           if (tile.door) cell.classList.add("tile-door");
 
@@ -115,6 +121,9 @@
       state.y = ny;
       this.render();
 
+      /* Did we step onto an item lying on the ground? Pick it up. */
+      this.tryPickUpItem(nx, ny);
+
       /* Did we step on a door? Warp — unless it's gated behind a flag. */
       const warp = map.warps.find(function (w) { return w.x === nx && w.y === ny; });
       if (warp) {
@@ -133,6 +142,27 @@
       }
 
       Game.save(); // auto-save after every step
+    },
+
+    /* If an uncollected ground item sits at (x, y), add it to the bag,
+       mark the spot collected so it never reappears, and announce it. */
+    tryPickUpItem: function (x, y) {
+      const Game = window.Game;
+      const map = Data.MAPS[Game.state.map];
+      if (!map.groundItems) return;
+
+      const gi = map.groundItems.find(function (g) { return g.x === x && g.y === y; });
+      if (!gi) return;
+
+      const key = Game.state.map + ":" + x + "," + y;
+      if (Game.state.flags.pickedItems.indexOf(key) !== -1) return;
+
+      Game.state.flags.pickedItems.push(key);
+      Game.state.items[gi.item] = (Game.state.items[gi.item] || 0) + 1;
+      Game.save();
+      this.render(); // redraw so the picked-up item disappears
+      if (window.Sound) window.Sound.select();
+      Game.showDialog(["You found a " + Data.ITEMS[gi.item].name + "!"]);
     },
 
     /* Press Space/Enter to interact with whatever the player faces. */

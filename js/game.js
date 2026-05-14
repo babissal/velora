@@ -149,6 +149,7 @@
       if (!Game.state.flags) Game.state.flags = { gymDefeated: false };
       if (typeof Game.state.flags.gym2Defeated !== "boolean") Game.state.flags.gym2Defeated = false;
       if (!Game.state.flags.defeatedTrainers) Game.state.flags.defeatedTrainers = [];
+      if (!Game.state.flags.pickedItems) Game.state.flags.pickedItems = [];
       if (!Game.state.dex) Game.state.dex = { seen: [], caught: [] };
       /* Older saves predate status / pending moves / move PP — backfill. */
       Game.state.party.concat(Game.state.storage).forEach(function (c) {
@@ -177,7 +178,7 @@
       x: 5,
       y: 4,
       facing: "down",
-      flags: { gymDefeated: false, gym2Defeated: false, defeatedTrainers: [] },
+      flags: { gymDefeated: false, gym2Defeated: false, defeatedTrainers: [], pickedItems: [] },
       dex: { seen: [], caught: [] },
     };
     Game.recordCaught(starterId);
