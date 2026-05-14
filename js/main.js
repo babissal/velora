@@ -223,6 +223,14 @@
       document.addEventListener("keydown", unlockAudioOnce);
       document.addEventListener("pointerdown", unlockAudioOnce);
 
+      /* iOS Safari ignores `user-scalable=no` in the viewport meta, so
+         pinch-zoom still works there. Cancelling the Safari-only gesture
+         events disables it. (Inside the Capacitor app the meta tag is
+         enough, but this keeps browser testing consistent.) */
+      ["gesturestart", "gesturechange", "gestureend"].forEach(function (evt) {
+        document.addEventListener(evt, function (e) { e.preventDefault(); });
+      });
+
       /* Tick the playtime counter once a second while a game is in progress. */
       setInterval(function () {
         if (Game.state &&
