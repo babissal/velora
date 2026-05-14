@@ -173,13 +173,17 @@
   }
 
 
-  /* ===== Start everything ===== */
+  /* ===== Start everything =====
+     Hydrate saved data first (async on a native shell), then build the
+     screens — the title screen needs to know whether a save exists. */
   function init() {
-    buildTitleScreen();
-    buildStarterScreen();
-    wireMenus();
-    document.addEventListener("keydown", routeKey);
-    Game.showScreen("title-screen");
+    window.GameStorage.init().then(function () {
+      buildTitleScreen();
+      buildStarterScreen();
+      wireMenus();
+      document.addEventListener("keydown", routeKey);
+      Game.showScreen("title-screen");
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
