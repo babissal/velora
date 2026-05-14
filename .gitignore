@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Capacitor native projects (generated locally; not committed)
+ios/
+android/
+
+# Generated icon/splash output (kept: resources/icon.png, resources/splash.png)
+resources/icon-*.png
+resources/splash-*.png
+
+# Build & OS junk
+dist/
+.DS_Store
+*.log
+npm-debug.log*
