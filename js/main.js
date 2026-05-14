@@ -17,6 +17,23 @@
     return div;
   }
 
+  /* Wire an on-screen control button (D-pad / interact).
+     Touch is handled on touchend with preventDefault(): this fires the
+     action AND stops iOS Safari from treating a quick second tap as a
+     double-tap-to-zoom gesture, which `touch-action: manipulation`
+     does not reliably suppress on Safari. preventDefault also cancels
+     the compatibility click, so the click handler (for mouse/desktop)
+     never double-fires on touch devices. */
+  function wireControl(btn, action) {
+    btn.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      window.Overworld.press(action);
+    }, { passive: false });
+    btn.addEventListener("click", function () {
+      window.Overworld.press(action);
+    });
+  }
+
 
   /* ===== Title screen ===== */
   function buildTitleScreen() {
@@ -124,13 +141,9 @@
 
     /* On-screen touch controls — the D-pad and interact button */
     document.querySelectorAll(".dpad-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        window.Overworld.press(btn.getAttribute("data-dir"));
-      });
+      wireControl(btn, btn.getAttribute("data-dir"));
     });
-    el("touch-interact").addEventListener("click", function () {
-      window.Overworld.press("interact");
-    });
+    wireControl(el("touch-interact"), "interact");
   }
 
   function openPauseMenu() {
