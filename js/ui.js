@@ -84,6 +84,7 @@
   /* ---- region map data + builder (used by the menu panel AND the
      always-visible strip on the overworld) ---- */
   const REGION_PLACES = [
+    { label: "Champion's Hall", maps: ["champions_hall"],                     requires: "gym3Defeated" },
     { label: "Frostvale Gym",   maps: ["gym3"],                              requires: "gym2Defeated" },
     { label: "Frostvale Town",  maps: ["town3", "healing_center3", "shop3"],  requires: "gym2Defeated" },
     { label: "Cobalt Cavern",   maps: ["route3"],                            requires: "gym2Defeated" },
@@ -97,7 +98,8 @@
 
   function shortLabel(label) {
     return label.replace("Greendale ", "G·").replace("Velora ", "V·")
-                .replace("Frostvale ", "F·").replace("Cobalt Cavern", "Cobalt");
+                .replace("Frostvale ", "F·").replace("Cobalt Cavern", "Cobalt")
+                .replace("Champion's Hall", "Champion");
   }
 
   /* Render the region into `container`. compact = the small overworld strip. */
@@ -878,6 +880,7 @@
 
       el("card-content").innerHTML =
         row("Badges", badges + " / 3") +
+        row("Rank", s.flags.championDefeated ? "Champion of Velora" : "Trainer") +
         row("Coins", s.money) +
         row("Dex caught", s.dex.caught.length + " / " + totalSpecies) +
         row("Party", s.party.length + " / 6") +

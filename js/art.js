@@ -437,6 +437,54 @@
         bolt(50, 70, 0.4)
       );
     },
+
+    /* --- Ancient dual-type creatures --- */
+    pyrowisp: function () {
+      const b = "#ff7a3c", d = "#a8380c", l = "#ffc27a";
+      return wrap(
+        bolt(20, 42, 0.6) + bolt(80, 42, 0.6) +
+        PATH("M50 92 C 30 82 24 60 30 42 C 36 60 44 58 50 46 C 56 58 64 60 70 42 C 76 60 70 82 50 92 Z", b, d, 3) +
+        flame(50, 28, 1.0) +
+        E(50, 66, 14, 12, l) +
+        eyes(50, 58, 11, 6, true) + mouth(50, 69, 5) +
+        C(36, 66, 3.4, "#ffd24a") + C(64, 66, 3.4, "#ffd24a")
+      );
+    },
+    glaqua: function () {
+      const b = "#5fbfd0", d = "#1f6f86", l = "#bfeaf0", fin = "#8fd8e2";
+      return wrap(
+        P("66,72 96,58 92,94", fin, d, 2.5) +
+        E(40, 86, 9, 8, b, d) + E(60, 86, 9, 8, b, d) +
+        P("16,52 2,42 18,70", fin, d, 2.5) + P("84,52 98,42 82,70", fin, d, 2.5) +
+        crystal(38, 32, 0.6) + crystal(50, 26, 0.95) + crystal(62, 32, 0.6) +
+        E(50, 58, 30, 26, b, d) + E(50, 66, 17, 14, l) +
+        eyes(50, 50, 12, 6) + mouth(50, 61, 5) +
+        C(33, 58, 4, "#8fd8e2") + C(67, 58, 4, "#8fd8e2")
+      );
+    },
+    verdfrost: function () {
+      const b = "#7fc8a0", d = "#2f7f5a", l = "#c4e8d4";
+      return wrap(
+        E(40, 86, 8, 8, b, d) + E(60, 86, 8, 8, b, d) +
+        E(22, 60, 7, 11, b, d) + E(78, 60, 7, 11, b, d) +
+        sprout(38, 36, 0.7) + crystal(50, 30, 0.85) + sprout(62, 36, 0.7) +
+        E(50, 58, 27, 25, b, d) + E(50, 66, 15, 13, l) +
+        eyes(50, 52, 11, 6) + mouth(50, 63, 5) +
+        crystal(30, 64, 0.35) + crystal(70, 64, 0.35)
+      );
+    },
+    terravolt: function () {
+      const b = "#c8b85c", d = "#6e6230", l = "#e4d894";
+      return wrap(
+        bolt(18, 44, 0.6) + bolt(82, 44, 0.6) +
+        E(34, 86, 10, 7, "#a89640", d) + E(66, 86, 10, 7, "#a89640", d) +
+        P("22,74 16,44 34,22 66,22 84,44 78,74 56,84 44,84", b, d, 3) +
+        P("34,22 66,22 58,42 42,42", l) +
+        PATH("M40 52 L 48 58 L 44 66", null, d, 2.4) +
+        PATH("M62 50 L 56 58 L 62 64", null, d, 2.4) +
+        eyes(50, 50, 13, 6.5, true) + mouth(50, 66, 6)
+      );
+    },
   };
 
 
@@ -524,6 +572,9 @@
     miner_dolf:  { skin: "#d8a878", hair: "#3a2a1a", shirt: "#7a6a4a", pants: "#4a4030", hat: "#e0b020" },
     skater_pia:  { skin: "#e8c4a0", hair: "#3a6f9a", shirt: "#5fc0d8", pants: "#2a4a6a", hat: null },
     frieda:      { skin: "#e8d0c0", hair: "#cfe4f0", shirt: "#7fc8e6", pants: "#3f6f96", hat: "#bfe9f5" },
+    elite_varn:  { skin: "#d8a878", hair: "#3a2a1a", shirt: "#c0451a", pants: "#2a2620", hat: null },
+    elite_sela:  { skin: "#e0b890", hair: "#2a3a5a", shirt: "#3a5a9a", pants: "#22304a", hat: null },
+    champion_rook: { skin: "#e8c4a0", hair: "#d8b020", shirt: "#7a3aa0", pants: "#3a2a4a", hat: "#e0c030" },
   };
 
   /* Looks for the everyday townsfolk you can chat with, keyed by the

@@ -67,6 +67,9 @@ const MOVES = {
   "Frost Beam":   { name: "Frost Beam",   type: "Frost",  power: 70, pp: 15 },
   "Icy Wind":     { name: "Icy Wind",     type: "Frost",  power: 35, pp: 20, effect: { statChange: { stat: "spd", stages: -1, target: "enemy" } } },
   "Rock Throw":   { name: "Rock Throw",   type: "Normal", power: 55, pp: 20 },
+  /* Healing moves — power 0, they restore the user's own HP. */
+  "Recover":      { name: "Recover",      type: "Normal", power: 0,  pp: 10, effect: { heal: 0.5 } },
+  "Synthesis":    { name: "Synthesis",    type: "Leaf",   power: 0,  pp: 10, effect: { heal: 0.5 } },
   /* Stat-stage moves — power 0, they shift a stat up or down for the battle. */
   "Growl":        { name: "Growl",        type: "Normal", power: 0,  pp: 30, effect: { statChange: { stat: "atk", stages: -1, target: "enemy" } } },
   "Tail Whip":    { name: "Tail Whip",    type: "Normal", power: 0,  pp: 30, effect: { statChange: { stat: "def", stages: -1, target: "enemy" } } },
@@ -161,6 +164,7 @@ const SPECIES = {
       { level: 1, move: "Water Jet" },
       { level: 6, move: "Harden" },
       { level: 12, move: "Aqua Pulse" },
+      { level: 28, move: "Recover" },
     ],
     evolvesTo: null, evolveLevel: null,
     color: "#1c5cc0",
@@ -199,6 +203,7 @@ const SPECIES = {
       { level: 1, move: "Vine Whip" },
       { level: 12, move: "Leaf Slash" },
       { level: 16, move: "Toxic Spores" },
+      { level: 28, move: "Synthesis" },
     ],
     evolvesTo: null, evolveLevel: null,
     color: "#3c8020",
@@ -418,6 +423,62 @@ const SPECIES = {
     ],
     evolvesTo: null, evolveLevel: null,
     color: "#b9a0e8",
+  },
+
+  /* --- Ancient dual-type creatures (the Champion's Hall) ---
+     These are the only creatures with two types, so the type chart
+     stacks against them — a single move can be doubly effective. */
+  pyrowisp: {
+    id: "pyrowisp", name: "Pyrowisp", types: ["Ember", "Spark"],
+    baseStats: { hp: 68, atk: 96, def: 62, spd: 110 },
+    learnset: [
+      { level: 1, move: "Focus" },
+      { level: 1, move: "Ember" },
+      { level: 8, move: "Spark" },
+      { level: 14, move: "Flame Burst" },
+      { level: 20, move: "Volt Snap" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#ff7a3c",
+  },
+  glaqua: {
+    id: "glaqua", name: "Glaqua", types: ["Aqua", "Frost"],
+    baseStats: { hp: 84, atk: 80, def: 96, spd: 78 },
+    learnset: [
+      { level: 1, move: "Water Jet" },
+      { level: 1, move: "Ice Shard" },
+      { level: 8, move: "Aqua Pulse" },
+      { level: 14, move: "Frost Beam" },
+      { level: 20, move: "Recover" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#5fbfd0",
+  },
+  verdfrost: {
+    id: "verdfrost", name: "Verdfrost", types: ["Leaf", "Frost"],
+    baseStats: { hp: 80, atk: 86, def: 88, spd: 86 },
+    learnset: [
+      { level: 1, move: "Vine Whip" },
+      { level: 1, move: "Ice Shard" },
+      { level: 8, move: "Leaf Slash" },
+      { level: 14, move: "Frost Beam" },
+      { level: 20, move: "Synthesis" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#7fc8a0",
+  },
+  terravolt: {
+    id: "terravolt", name: "Terravolt", types: ["Normal", "Spark"],
+    baseStats: { hp: 96, atk: 92, def: 100, spd: 60 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Rock Throw" },
+      { level: 8, move: "Spark" },
+      { level: 14, move: "Volt Snap" },
+      { level: 20, move: "Recover" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#c8b85c",
   },
 };
 
@@ -671,6 +732,36 @@ const TRAINERS = {
     winLine: "Frieda: Magnificent. The Glacier Badge is yours — you've earned every shard of it.",
     loseLine: "Frieda: The cold tests everyone. Come back when you're ready.",
     afterLine: "Leader Frieda: Three badges! You've grown into a trainer Velora can be proud of.",
+  },
+  elite_varn: {
+    id: "elite_varn",
+    name: "Elite Varn",
+    team: [ ["pyrowisp", 30], ["terravolt", 31] ],
+    reward: 1400,
+    intro: "Elite Varn: Only badge-holders reach this hall. The ancient creatures answer to me — prove you deserve to pass!",
+    winLine: "Elite Varn: Raw power and a steady heart. The Champion awaits.",
+    loseLine: "Elite Varn: The old creatures are not so easily tamed, are they?",
+    afterLine: "Elite Varn: Two types, one creature — read the chart carefully, challenger.",
+  },
+  elite_sela: {
+    id: "elite_sela",
+    name: "Elite Sela",
+    team: [ ["glaqua", 30], ["verdfrost", 31] ],
+    reward: 1400,
+    intro: "Elite Sela: Varn tests strength. I test patience. Outlast my creatures if you can!",
+    winLine: "Elite Sela: Composed to the very end. Champion Rook will enjoy this.",
+    loseLine: "Elite Sela: Patience wins the long battle. Rest, and return.",
+    afterLine: "Elite Sela: A creature that heals itself can outlast almost anything. Remember that.",
+  },
+  champion_rook: {
+    id: "champion_rook",
+    name: "Champion Rook",
+    team: [ ["pyrowisp", 32], ["glaqua", 32], ["verdfrost", 33], ["terravolt", 33], ["glacelle", 35] ],
+    reward: 5000,
+    intro: "Rook: I am Rook, Champion of Velora. You've crossed the whole region to stand here. Now — give me everything!",
+    winLine: "Rook: ...Incredible. The bond you share outshines my own. Velora has a new Champion!",
+    loseLine: "Rook: A Champion must be unbeatable. Train harder, and challenge me again.",
+    afterLine: "Champion Rook: The title is yours, but the journey never truly ends. I'll be here for a rematch whenever you're ready.",
   },
 };
 
@@ -980,7 +1071,7 @@ const MAPS = {
   town3: {
     name: "Frostvale Town",
     grid: [
-      [2,2,2,2,2,2,2,2,2,2,2,2],
+      [2,2,2,2,2,2,6,2,2,2,2,2],
       [2,0,5,5,5,0,0,5,5,5,0,2],
       [2,0,5,6,5,0,0,5,6,5,0,2],
       [2,0,0,0,0,0,0,0,0,8,0,2],
@@ -996,6 +1087,9 @@ const MAPS = {
       { x: 8, y: 2, to: "shop3",           toX: 3, toY: 4 },
       { x: 5, y: 6, to: "gym3",            toX: 4, toY: 7 },
       { x: 5, y: 9, to: "route3",          toX: 6, toY: 1 },
+      { x: 6, y: 0, to: "champions_hall",  toX: 5, toY: 11,
+        requires: "gym3Defeated",
+        requiredMessage: "A keeper guards the great doors. \"Beyond lies the Champion's Hall. Earn the Glacier Badge, and the way will open.\"" },
     ],
     npcs: {
       "9,3": { kind: "person", look: "villager", lines: [
@@ -1008,6 +1102,45 @@ const MAPS = {
       ] },
     },
     encounters: null,
+  },
+
+  champions_hall: {
+    name: "Champion's Hall",
+    grid: [
+      [5,5,5,5,5,5,5,5,5,5,5],
+      [5,0,0,0,0,8,0,0,0,0,5],
+      [5,0,9,0,0,3,0,0,9,0,5],
+      [5,0,0,0,0,3,0,0,0,0,5],
+      [5,0,0,0,3,3,3,0,0,0,5],
+      [5,8,0,0,0,3,0,0,0,0,5],
+      [5,3,0,0,0,3,0,0,0,3,5],
+      [5,0,0,0,0,3,0,0,0,8,5],
+      [5,0,0,0,3,3,3,0,0,0,5],
+      [5,1,1,0,0,3,0,0,1,1,5],
+      [5,1,1,0,0,3,0,0,1,1,5],
+      [5,0,0,0,0,3,0,0,0,0,5],
+      [5,5,5,5,5,6,5,5,5,5,5],
+    ],
+    warps: [
+      { x: 5, y: 12, to: "town3", toX: 6, toY: 1 },
+    ],
+    npcs: {
+      "5,1": { kind: "gymleader", trainer: "champion_rook", flag: "championDefeated" },
+      "1,5": { kind: "trainer", trainer: "elite_varn", sight: { dir: "right", range: 4 } },
+      "9,7": { kind: "trainer", trainer: "elite_sela", sight: { dir: "left", range: 4 } },
+    },
+    groundItems: [
+      { x: 1, y: 3, item: "revive" },
+      { x: 9, y: 3, item: "great_orb" },
+    ],
+    encounters: {
+      species: [
+        "pyrowisp", "glaqua", "verdfrost", "terravolt",
+        "glaqua", "verdfrost",
+      ],
+      minLevel: 28,
+      maxLevel: 34,
+    },
   },
 
   healing_center3: {

@@ -149,6 +149,7 @@
       if (!Game.state.flags) Game.state.flags = { gymDefeated: false };
       if (typeof Game.state.flags.gym2Defeated !== "boolean") Game.state.flags.gym2Defeated = false;
       if (typeof Game.state.flags.gym3Defeated !== "boolean") Game.state.flags.gym3Defeated = false;
+      if (typeof Game.state.flags.championDefeated !== "boolean") Game.state.flags.championDefeated = false;
       if (!Game.state.flags.defeatedTrainers) Game.state.flags.defeatedTrainers = [];
       if (!Game.state.flags.pickedItems) Game.state.flags.pickedItems = [];
       if (!Game.state.dex) Game.state.dex = { seen: [], caught: [] };
@@ -180,7 +181,7 @@
       x: 5,
       y: 4,
       facing: "down",
-      flags: { gymDefeated: false, gym2Defeated: false, gym3Defeated: false, defeatedTrainers: [], pickedItems: [] },
+      flags: { gymDefeated: false, gym2Defeated: false, gym3Defeated: false, championDefeated: false, defeatedTrainers: [], pickedItems: [] },
       dex: { seen: [], caught: [] },
       stats: { steps: 0, battlesWon: 0, playSeconds: 0 },
     };
@@ -348,7 +349,23 @@
         Game.showDialog([
           Data.TRAINERS.frieda.winLine,
           "You received the Glacier Badge!",
-          "Three badges! You've journeyed from Velora Town to the frozen peaks. A true champion!",
+          "With three badges, the Champion's Hall north of Frostvale opens to you!",
+        ]);
+        return;
+      }
+      if (trainerId === "champion_rook" && !Game.state.flags.championDefeated) {
+        Game.state.flags.championDefeated = true;
+        /* The Champion honours the new title with a gift creature. */
+        const gift = Data.createCreature("glaqua", 30);
+        Game.recordCaught("glaqua");
+        const where = Game.addCreature(gift);
+        Game.save();
+        Game.resumeOverworld();
+        Game.showDialog([
+          Data.TRAINERS.champion_rook.winLine,
+          "You are the new Champion of Velora!",
+          "Champion Rook entrusts you with one of the ancient creatures.",
+          "Glaqua was added to your " + (where === "party" ? "party!" : "storage box."),
         ]);
         return;
       }

@@ -238,6 +238,17 @@
       }
     }
 
+    /* Healing effect from the move — restores a fraction of the
+       attacker's own max HP. */
+    if (moveData.effect && moveData.effect.heal && attacker.currentHp > 0) {
+      const healAmt = Math.max(1, Math.floor(attacker.maxHp * moveData.effect.heal));
+      const before = attacker.currentHp;
+      attacker.currentHp = Math.min(attacker.maxHp, attacker.currentHp + healAmt);
+      const gained = attacker.currentHp - before;
+      if (gained > 0) this.addLog(attackerName + " recovered " + gained + " HP!");
+      else this.addLog(attackerName + "'s HP is already full!");
+    }
+
     if (defender.currentHp === 0) {
       defender.status = null; // a fainted creature loses its condition
       this.addLog(defenderName + " fainted!");
