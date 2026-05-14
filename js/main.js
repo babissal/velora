@@ -20,9 +20,9 @@
   /* Wire an on-screen control button (D-pad / interact).
      Touch is handled on touchend with preventDefault(): this fires the
      action AND stops iOS Safari from treating a quick second tap as a
-     double-tap-to-zoom gesture, which `touch-action: manipulation`
-     does not reliably suppress on Safari. preventDefault also cancels
-     the compatibility click, so the click handler (for mouse/desktop)
+     double-tap-to-zoom gesture, which the CSS `touch-action` rule does
+     not reliably suppress on Safari. preventDefault also cancels the
+     compatibility click, so the click handler (for mouse/desktop)
      never double-fires on touch devices. */
   function wireControl(btn, action) {
     btn.addEventListener("touchend", function (e) {
@@ -231,10 +231,10 @@
         document.addEventListener(evt, function (e) { e.preventDefault(); });
       });
 
-      /* Double-tap-to-zoom: modern iOS Safari also ignores `maximum-scale`,
-         and `touch-action: manipulation` only covers it on elements that
-         actually receive the tap. Catch any second tap within 300ms at the
-         document level and cancel it — that's the gesture Safari zooms on. */
+      /* Double-tap-to-zoom: modern iOS Safari also ignores `maximum-scale`.
+         The CSS `touch-action` rule covers it only on elements that
+         actually receive the tap, so also catch any second tap within
+         300ms at the document level — that's the gesture Safari zooms on. */
       var lastTouchEnd = 0;
       document.addEventListener("touchend", function (e) {
         var now = Date.now();

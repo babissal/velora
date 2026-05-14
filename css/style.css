@@ -6,9 +6,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* touch-action does not inherit, so set it on every element — otherwise
-     double-tap-to-zoom still fires on the gaps between touch controls. */
-  touch-action: manipulation;
+  /* `pan-x pan-y` allows scrolling but forbids ALL zoom gestures (pinch
+     and double-tap). `manipulation` would still permit pinch-zoom.
+     touch-action does not inherit, so it must be set on every element —
+     otherwise zoom still fires on the gaps between touch controls. */
+  touch-action: pan-x pan-y;
 }
 
 /* Overworld tile size — shrinks on small screens so the map fits. */
@@ -23,9 +25,8 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 16px;
-  /* Disable double-tap-to-zoom across the game (still allows pinch zoom)
-     so quick repeated taps on the touch controls don't zoom the page. */
-  touch-action: manipulation;
+  /* No zoom of any kind — see the universal `*` rule above. */
+  touch-action: pan-x pan-y;
 }
 
 #game {
@@ -257,7 +258,7 @@ body {
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  touch-action: pan-x pan-y;
 }
 .dpad-btn { font-size: 20px; }
 .dpad-btn:active,
