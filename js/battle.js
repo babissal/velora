@@ -19,6 +19,11 @@
 (function () {
   const Data = window.GameData;
 
+  /* Play a named sound effect, if the audio module is present. */
+  function sfx(name) {
+    if (window.Sound && window.Sound[name]) window.Sound[name]();
+  }
+
   /* A stat stage of 0 is normal; positive boosts, negative weakens. */
   function stageMultiplier(stage) {
     if (stage >= 0) return (2 + stage) / 2;   // +1 = 1.5x, +2 = 2x, +3 = 2.5x
@@ -203,8 +208,9 @@
       defender.currentHp -= result.damage;
       if (defender.currentHp < 0) defender.currentHp = 0;
 
-      if (result.effectiveness > 1) this.addLog("It's super effective!");
-      else if (result.effectiveness < 1) this.addLog("It's not very effective...");
+      if (result.effectiveness > 1) { this.addLog("It's super effective!"); sfx("superEffective"); }
+      else if (result.effectiveness < 1) { this.addLog("It's not very effective..."); sfx("notVeryEffective"); }
+      else { sfx("hit"); }
     }
 
     /* Status effect from the move. */
@@ -228,6 +234,7 @@
     if (defender.currentHp === 0) {
       defender.status = null; // a fainted creature loses its condition
       this.addLog(defenderName + " fainted!");
+      sfx("faint");
       return true;
     }
     return false;
@@ -260,6 +267,7 @@
       if (player.currentHp === 0) {
         player.status = null;
         this.addLog(Data.SPECIES[player.speciesId].name + " fainted!");
+        sfx("faint");
         this.handleActiveFaint();
         return;
       }
@@ -273,6 +281,7 @@
       if (enemy.currentHp === 0) {
         enemy.status = null;
         this.addLog(Data.SPECIES[enemy.speciesId].name + " fainted!");
+        sfx("faint");
         this.handleEnemyFaint();
         return;
       }
@@ -377,6 +386,7 @@
       this.addLog("You threw a " + item.name + "!");
       if (Math.random() < catchChance(this.enemy(), item.catchBonus)) {
         this.addLog("Gotcha! " + Data.SPECIES[this.enemy().speciesId].name + " was caught!");
+        sfx("catchSuccess");
         this.caught = this.enemy();
         this.caught.status = null;
         this.over = true;

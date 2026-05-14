@@ -156,6 +156,7 @@
       } else if (npc.kind === "nurse") {
         Game.healParty();
         Game.save();
+        if (window.Sound) window.Sound.heal();
         Game.showDialog([
           "Nurse: Welcome to the Healing Center!",
           "Your team has been fully healed.",
