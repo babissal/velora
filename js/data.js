@@ -421,6 +421,7 @@ function gainXp(creature, amount, log) {
     creature.level++;
     recalcStats(creature);
     log(SPECIES[creature.speciesId].name + " grew to level " + creature.level + "!");
+    if (window.Sound) window.Sound.levelUp();
 
     /* Learn any move tied to this exact level. If there's no room
        (already 4 moves), queue it so the player can choose later. */
@@ -447,6 +448,7 @@ function gainXp(creature, amount, log) {
       creature.speciesId = species.evolvesTo;
       recalcStats(creature);
       log(oldName + " evolved into " + SPECIES[creature.speciesId].name + "!");
+      if (window.Sound) window.Sound.evolve();
     }
   }
 }

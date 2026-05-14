@@ -262,6 +262,7 @@
     Game.pendingTrainer = null;
     Game.recordSeen(enemy.speciesId);
     Game.battle = new window.Battle(Game.state.party, [enemy], { isWild: true });
+    if (window.Sound) window.Sound.encounter();
     window.BattleScreen.open();
   };
 
@@ -278,6 +279,7 @@
       trainerName: trainer.name,
       moneyOnWin: trainer.reward,
     });
+    if (window.Sound) window.Sound.encounter();
     window.BattleScreen.open();
   };
 

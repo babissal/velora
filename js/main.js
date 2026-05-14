@@ -105,6 +105,12 @@
     el("menu-bag").addEventListener("click", function () { window.Menus.openBag(); });
     el("menu-dex").addEventListener("click", function () { window.Menus.openDex(); });
     el("menu-map").addEventListener("click", function () { window.Menus.openMap(); });
+    el("menu-sound").addEventListener("click", function () {
+      window.Sound.setMuted(!window.Sound.isMuted());
+      window.GameStorage.setItem("velora_muted", window.Sound.isMuted() ? "1" : "0");
+      updateSoundLabel();
+      if (!window.Sound.isMuted()) window.Sound.select();
+    });
     el("menu-save").addEventListener("click", function () {
       const ok = Game.save();
       Game.showDialog([ok ? "Game saved." : "Could not save (your browser may be blocking storage)."]);
@@ -150,6 +156,19 @@
     Game.openOverlay("menu-overlay");
   }
 
+  /* Keep the pause-menu sound button's label in sync with the setting. */
+  function updateSoundLabel() {
+    el("menu-sound").textContent = "Sound: " + (window.Sound.isMuted() ? "Off" : "On");
+  }
+
+  /* Browsers keep audio suspended until the player interacts; resume it
+     on the very first key, tap or click, then stop listening. */
+  function unlockAudioOnce() {
+    window.Sound.unlock();
+    document.removeEventListener("keydown", unlockAudioOnce);
+    document.removeEventListener("pointerdown", unlockAudioOnce);
+  }
+
 
   /* ===== Global keyboard routing =====
      Sends each key press to whatever part of the game is active. */
@@ -191,10 +210,14 @@
      screens — the title screen needs to know whether a save exists. */
   function init() {
     window.GameStorage.init().then(function () {
+      window.Sound.setMuted(window.GameStorage.getItem("velora_muted") === "1");
       buildTitleScreen();
       buildStarterScreen();
       wireMenus();
+      updateSoundLabel();
       document.addEventListener("keydown", routeKey);
+      document.addEventListener("keydown", unlockAudioOnce);
+      document.addEventListener("pointerdown", unlockAudioOnce);
       Game.showScreen("title-screen");
     });
   }
