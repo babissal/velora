@@ -103,6 +103,23 @@ body {
   justify-content: center;
   padding: 4px;
   overflow: hidden;
+  position: relative;     /* anchors the move-fx burst */
+}
+
+/* A type-coloured impact burst flashed over a struck creature. */
+.move-fx {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: move-fx-burst 0.4s ease-out forwards;
+}
+@keyframes move-fx-burst {
+  0%   { transform: scale(0.25); opacity: 0.9; }
+  100% { transform: scale(1.5);  opacity: 0; }
 }
 .creature-svg {
   width: 100%;
