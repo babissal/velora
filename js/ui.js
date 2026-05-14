@@ -510,6 +510,10 @@
       panel.appendChild(partyHead);
 
       party.forEach(function (creature, index) {
+        const view = button("View", "mini-btn", function () {
+          self.openCreatureDetail(creature);
+        });
+
         const up = button("&#9650;", "mini-btn", function () {
           const tmp = party[index - 1]; party[index - 1] = party[index]; party[index] = tmp;
           refresh();
@@ -528,7 +532,7 @@
         });
         if (party.length <= 1) toBox.disabled = true; // never empty the party
 
-        panel.appendChild(card(creature, [up, down, toBox]));
+        panel.appendChild(card(creature, [view, up, down, toBox]));
       });
 
       /* --- Storage section --- */
@@ -544,14 +548,80 @@
         panel.appendChild(note);
       } else {
         storage.forEach(function (creature, index) {
+          const view = button("View", "mini-btn", function () {
+            self.openCreatureDetail(creature);
+          });
           const toParty = button("To Party", "mini-btn", function () {
             party.push(storage.splice(index, 1)[0]);
             refresh();
           });
           if (party.length >= 6) toParty.disabled = true;
-          panel.appendChild(card(creature, [toParty]));
+          panel.appendChild(card(creature, [view, toParty]));
         });
       }
+    },
+
+    /* ---- Creature detail: full stats, XP progress and move list ---- */
+    openCreatureDetail: function (creature) {
+      this.renderCreatureDetail(creature);
+      Game.openOverlay("creature-panel");
+    },
+
+    renderCreatureDetail: function (creature) {
+      const species = Data.SPECIES[creature.speciesId];
+      const content = el("creature-content");
+      content.innerHTML = "";
+
+      const sprite = document.createElement("div");
+      sprite.className = "sprite creature-detail-sprite";
+      window.CreatureArt.into(sprite, creature.speciesId);
+      content.appendChild(sprite);
+
+      const header = document.createElement("div");
+      header.className = "creature-detail-header";
+      header.innerHTML =
+        "<div class='creature-detail-name'>" + species.name +
+        " <span class='lvl'>Lv" + creature.level + "</span>" +
+        statusTag(creature.status) + "</div>" +
+        "<div class='creature-detail-types'>" + species.types.join(" / ") + "</div>";
+      content.appendChild(header);
+
+      const hpPercent = (creature.currentHp / creature.maxHp) * 100;
+      const xpNeeded = Data.xpToNext(creature.level);
+      const stats = document.createElement("div");
+      stats.className = "creature-detail-stats";
+      stats.innerHTML =
+        "<div class='stat-line'><span>HP</span>" +
+        "<div class='hp-bar'><div class='hp-fill' style='width:" + hpPercent +
+        "%;background:" + hpColor(hpPercent) + "'></div></div>" +
+        "<span class='stat-val'>" + creature.currentHp + " / " + creature.maxHp + "</span></div>" +
+        "<div class='stat-line'><span>ATK</span><span class='stat-val wide-val'>" + creature.atk + "</span></div>" +
+        "<div class='stat-line'><span>DEF</span><span class='stat-val wide-val'>" + creature.def + "</span></div>" +
+        "<div class='stat-line'><span>SPD</span><span class='stat-val wide-val'>" + creature.spd + "</span></div>" +
+        "<div class='stat-line'><span>XP</span>" +
+        "<div class='xp-bar'><div class='xp-fill' style='width:" +
+        ((creature.xp / xpNeeded) * 100) + "%'></div></div>" +
+        "<span class='stat-val'>" + creature.xp + " / " + xpNeeded + "</span></div>";
+      content.appendChild(stats);
+
+      const movesHead = document.createElement("p");
+      movesHead.className = "menu-label";
+      movesHead.textContent = "Moves";
+      content.appendChild(movesHead);
+
+      creature.moves.forEach(function (moveName) {
+        const move = Data.MOVES[moveName];
+        const pp = (creature.movePP && creature.movePP[moveName] !== undefined)
+          ? creature.movePP[moveName] : move.pp;
+        const row = document.createElement("div");
+        row.className = "move-row type-" + move.type;
+        row.innerHTML =
+          "<strong>" + moveName + "</strong>" +
+          "<span class='move-detail'>" + move.type +
+          (move.power > 0 ? " &middot; Pow " + move.power : " &middot; status") +
+          " &middot; PP " + pp + " / " + move.pp + "</span>";
+        content.appendChild(row);
+      });
     },
 
     /* ---- Bag panel: view items, and use heal/revive items ---- */

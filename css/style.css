@@ -20,6 +20,9 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 16px;
+  /* Disable double-tap-to-zoom across the game (still allows pinch zoom)
+     so quick repeated taps on the touch controls don't zoom the page. */
+  touch-action: manipulation;
 }
 
 #game {
@@ -181,9 +184,9 @@ body {
 }
 .dpad {
   display: grid;
-  grid-template-columns: repeat(3, 48px);
-  grid-template-rows: repeat(3, 48px);
-  gap: 3px;
+  grid-template-columns: repeat(3, 58px);
+  grid-template-rows: repeat(3, 58px);
+  gap: 4px;
 }
 .dpad-btn,
 .touch-a {
@@ -198,7 +201,7 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-.dpad-btn { font-size: 16px; }
+.dpad-btn { font-size: 20px; }
 .dpad-btn:active,
 .touch-a:active { background: #ffd24a; transform: translateY(2px); }
 .dpad-up    { grid-column: 2; grid-row: 1; }
@@ -240,10 +243,10 @@ body {
   :root { --tile: 22px; }
   .sprite { width: 76px; height: 76px; }
   .dpad {
-    grid-template-columns: repeat(3, 44px);
-    grid-template-rows: repeat(3, 44px);
+    grid-template-columns: repeat(3, 54px);
+    grid-template-rows: repeat(3, 54px);
   }
-  .touch-a { width: 62px; height: 62px; font-size: 22px; }
+  .touch-a { width: 68px; height: 68px; font-size: 24px; }
   #starter-choices { gap: 10px; }
   .starter-card { width: 150px; }
 }
@@ -655,6 +658,48 @@ body {
   height: 3px;
   background: #cfe0cf;
 }
+
+/* ===== Creature detail panel ===== */
+.creature-detail-sprite { margin: 0 auto 10px; }
+.creature-detail-header { text-align: center; margin-bottom: 12px; }
+.creature-detail-name { font-weight: bold; font-size: 18px; color: #ffe27a; }
+.creature-detail-types { font-size: 13px; color: #cfe0cf; margin-top: 2px; }
+.creature-detail-stats {
+  background: #f4f0e0;
+  color: #1b2b1b;
+  border: 2px solid #1b2b1b;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+}
+.stat-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 13px;
+}
+.stat-line:last-child { margin-bottom: 0; }
+.stat-line > span:first-child { width: 32px; flex-shrink: 0; }
+.stat-line .hp-bar,
+.stat-line .xp-bar { flex: 1; }
+.stat-line .stat-val {
+  width: 76px;
+  text-align: right;
+  flex-shrink: 0;
+  font-weight: normal;
+}
+.stat-line .wide-val { flex: 1; }
+.move-row {
+  border: 2px solid #1b2b1b;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  color: #1b2b1b;
+}
+.move-row strong { display: block; }
+.move-row .move-detail { font-size: 11px; }
 
 /* Learn-a-move panel */
 .learn-newmove {
