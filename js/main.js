@@ -231,6 +231,21 @@
         document.addEventListener(evt, function (e) { e.preventDefault(); });
       });
 
+      /* Double-tap-to-zoom: modern iOS Safari also ignores `maximum-scale`,
+         and `touch-action: manipulation` only covers it on elements that
+         actually receive the tap. Catch any second tap within 300ms at the
+         document level and cancel it — that's the gesture Safari zooms on. */
+      var lastTouchEnd = 0;
+      document.addEventListener("touchend", function (e) {
+        var now = Date.now();
+        if (now - lastTouchEnd <= 300) e.preventDefault();
+        lastTouchEnd = now;
+      }, { passive: false });
+
+      /* Belt-and-suspenders: also block any leftover double-tap that
+         surfaces as a dblclick (e.g. on non-button gaps in the controls). */
+      document.addEventListener("dblclick", function (e) { e.preventDefault(); });
+
       /* Tick the playtime counter once a second while a game is in progress. */
       setInterval(function () {
         if (Game.state &&
