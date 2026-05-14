@@ -654,8 +654,8 @@ const MAPS = {
       { x: 5, y: 10, to: "gym",  toX: 4, toY: 7 },
     ],
     npcs: {
-      "3,1": { kind: "trainer", trainer: "scout_tam" },
-      "7,9": { kind: "trainer", trainer: "camper_joss" },
+      "3,1": { kind: "trainer", trainer: "scout_tam", sight: { dir: "down", range: 3 } },
+      "7,9": { kind: "trainer", trainer: "camper_joss", sight: { dir: "up", range: 3 } },
       "9,5": { kind: "person", look: "fisher", lines: [
         "Tall grass is where wild creatures love to hide.",
         "Wear one down in battle before you throw a Capture Orb — a tired creature is far easier to catch.",
@@ -758,7 +758,7 @@ const MAPS = {
       { x: 6, y: 11, to: "town",  toX: 6, toY: 1 },
     ],
     npcs: {
-      "3,5": { kind: "trainer", trainer: "hiker_bex" },
+      "3,5": { kind: "trainer", trainer: "hiker_bex", sight: { dir: "up", range: 3 } },
       "9,1": { kind: "person", look: "elder", lines: [
         "These Greendale hills are steeper than they look.",
         "Spark creatures up here are quick. Aqua types dread them — but Leaf types just shrug off the jolts.",

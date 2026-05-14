@@ -12,8 +12,14 @@
 
   const Overworld = {
 
+    /* When a trainer spots the player, this holds { map, x, y } of that
+       trainer so render() can pop a "!" over them. Cleared once the
+       resulting battle begins. */
+    _alert: null,
+
     /* Draw the whole map from the current game state. */
     render: function () {
+      const self = this;
       const state = window.Game.state;
       const map = Data.MAPS[state.map];
       const grid = document.getElementById("map-grid");
@@ -50,6 +56,15 @@
             player.className = "person";
             player.innerHTML = window.CharacterArt.player(state.facing);
             cell.appendChild(player);
+          }
+
+          /* A "!" bubble over a trainer who just spotted the player. */
+          if (self._alert && self._alert.map === state.map &&
+              self._alert.x === x && self._alert.y === y) {
+            const bang = document.createElement("div");
+            bang.className = "npc-alert";
+            bang.textContent = "!";
+            cell.appendChild(bang);
           }
 
           grid.appendChild(cell);
@@ -121,6 +136,9 @@
       state.y = ny;
       this.render();
 
+      /* Did a trainer just spot us? Their challenge takes priority. */
+      if (this.checkTrainerSight()) return;
+
       /* Did we step onto an item lying on the ground? Pick it up. */
       this.tryPickUpItem(nx, ny);
 
@@ -163,6 +181,52 @@
       this.render(); // redraw so the picked-up item disappears
       if (window.Sound) window.Sound.select();
       Game.showDialog(["You found a " + Data.ITEMS[gi.item].name + "!"]);
+    },
+
+    /* Has any not-yet-defeated trainer's line of sight reached the
+       player's tile? Walls, trees and water break the line. */
+    checkTrainerSight: function () {
+      const Game = window.Game;
+      const state = Game.state;
+      const map = Data.MAPS[state.map];
+      const STEP = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+
+      for (const key in map.npcs) {
+        const npc = map.npcs[key];
+        if (npc.kind !== "trainer" || !npc.sight) continue;
+        if (Game.state.flags.defeatedTrainers.indexOf(npc.trainer) !== -1) continue;
+
+        const parts = key.split(",");
+        const tx = parseInt(parts[0], 10);
+        const ty = parseInt(parts[1], 10);
+        const d = STEP[npc.sight.dir];
+        if (!d) continue;
+
+        for (let step = 1; step <= npc.sight.range; step++) {
+          const cx = tx + d[0] * step;
+          const cy = ty + d[1] * step;
+          if (cy < 0 || cy >= map.grid.length || cx < 0 || cx >= map.grid[0].length) break;
+          if (!Data.TILES[map.grid[cy][cx]].walkable) break; // line of sight is blocked
+          if (cx === state.x && cy === state.y) {
+            this.triggerTrainerSight(tx, ty, npc);
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
+    /* A trainer spotted the player: pop a "!" over them, then run the
+       usual intro-dialog-then-battle flow. */
+    triggerTrainerSight: function (tx, ty, npc) {
+      const Game = window.Game;
+      const self = this;
+      this._alert = { map: Game.state.map, x: tx, y: ty };
+      this.render();
+      Game.showDialog([Data.TRAINERS[npc.trainer].intro], function () {
+        self._alert = null;
+        Game.startTrainerBattle(npc.trainer);
+      });
     },
 
     /* Press Space/Enter to interact with whatever the player faces. */
