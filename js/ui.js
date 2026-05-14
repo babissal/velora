@@ -834,6 +834,44 @@
       if (strip) buildRegion(strip, true);
     },
 
+    /* ---- Type chart: a reference grid of the damage multipliers ---- */
+    openTypes: function () {
+      const ABBREV = { Normal: "Nrm", Ember: "Emb", Aqua: "Aqa", Leaf: "Lef", Spark: "Spk" };
+      const types = Data.TYPES;
+      const grid = el("types-grid");
+      grid.innerHTML = "";
+
+      function headCell(type) {
+        const c = document.createElement("div");
+        c.className = "type-cell type-head type-" + type;
+        c.textContent = ABBREV[type] || type;
+        return c;
+      }
+
+      /* Top-left corner, then the defending-type header row. */
+      const corner = document.createElement("div");
+      corner.className = "type-cell type-corner";
+      corner.textContent = "ATK \\ DEF";
+      grid.appendChild(corner);
+      types.forEach(function (def) { grid.appendChild(headCell(def)); });
+
+      /* One row per attacking type. */
+      types.forEach(function (atk) {
+        grid.appendChild(headCell(atk));
+        types.forEach(function (def) {
+          const mult = Data.TYPE_CHART[atk][def];
+          const cell = document.createElement("div");
+          cell.className = "type-cell type-mult";
+          if (mult > 1) { cell.classList.add("type-strong"); cell.textContent = "2×"; }
+          else if (mult < 1) { cell.classList.add("type-weak"); cell.textContent = "½×"; }
+          else { cell.textContent = "1×"; }
+          grid.appendChild(cell);
+        });
+      });
+
+      Game.openOverlay("types-panel");
+    },
+
     /* ---- Learn-a-move flow ----
        After a battle, any party creature that wants to learn a move it
        has no room for is resolved here, one move at a time. */

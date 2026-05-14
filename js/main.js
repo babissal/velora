@@ -105,6 +105,7 @@
     el("menu-bag").addEventListener("click", function () { window.Menus.openBag(); });
     el("menu-dex").addEventListener("click", function () { window.Menus.openDex(); });
     el("menu-map").addEventListener("click", function () { window.Menus.openMap(); });
+    el("menu-types").addEventListener("click", function () { window.Menus.openTypes(); });
     el("menu-sound").addEventListener("click", function () {
       window.Sound.setMuted(!window.Sound.isMuted());
       window.GameStorage.setItem("velora_muted", window.Sound.isMuted() ? "1" : "0");
@@ -125,6 +126,7 @@
     el("bag-close").addEventListener("click", function () { Game.closeOverlay("bag-panel"); });
     el("dex-close").addEventListener("click", function () { Game.closeOverlay("dex-panel"); });
     el("map-close").addEventListener("click", function () { Game.closeOverlay("map-panel"); });
+    el("types-close").addEventListener("click", function () { Game.closeOverlay("types-panel"); });
     el("shop-close").addEventListener("click", function () { Game.closeOverlay("shop-panel"); });
 
     /* Clicking the dialog box advances the text */
