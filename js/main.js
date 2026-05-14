@@ -246,6 +246,21 @@
          surfaces as a dblclick (e.g. on non-button gaps in the controls). */
       document.addEventListener("dblclick", function (e) { e.preventDefault(); });
 
+      /* Desktop zoom: Ctrl/Cmd + mouse-wheel zooms the page (a trackpad
+         pinch is reported the same way). Cancel it when the modifier is
+         held; plain scrolling still works. */
+      document.addEventListener("wheel", function (e) {
+        if (e.ctrlKey) e.preventDefault();
+      }, { passive: false });
+
+      /* Desktop zoom: the Ctrl/Cmd + "+", "-", "=", "0" keyboard shortcuts. */
+      document.addEventListener("keydown", function (e) {
+        if ((e.ctrlKey || e.metaKey) &&
+            ["+", "-", "=", "0"].indexOf(e.key) !== -1) {
+          e.preventDefault();
+        }
+      });
+
       /* Tick the playtime counter once a second while a game is in progress. */
       setInterval(function () {
         if (Game.state &&
