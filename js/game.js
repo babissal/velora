@@ -148,6 +148,7 @@
       /* Fill in anything an older save might be missing. */
       if (!Game.state.flags) Game.state.flags = { gymDefeated: false };
       if (typeof Game.state.flags.gym2Defeated !== "boolean") Game.state.flags.gym2Defeated = false;
+      if (typeof Game.state.flags.gym3Defeated !== "boolean") Game.state.flags.gym3Defeated = false;
       if (!Game.state.flags.defeatedTrainers) Game.state.flags.defeatedTrainers = [];
       if (!Game.state.flags.pickedItems) Game.state.flags.pickedItems = [];
       if (!Game.state.dex) Game.state.dex = { seen: [], caught: [] };
@@ -179,7 +180,7 @@
       x: 5,
       y: 4,
       facing: "down",
-      flags: { gymDefeated: false, gym2Defeated: false, defeatedTrainers: [], pickedItems: [] },
+      flags: { gymDefeated: false, gym2Defeated: false, gym3Defeated: false, defeatedTrainers: [], pickedItems: [] },
       dex: { seen: [], caught: [] },
       stats: { steps: 0, battlesWon: 0, playSeconds: 0 },
     };
@@ -336,7 +337,18 @@
         Game.showDialog([
           Data.TRAINERS.cole.winLine,
           "You received the Tide Badge!",
-          "With two badges, you're a true Velora trainer. Congratulations!",
+          "The trail north of Greendale Town is open — the Cobalt Cavern climbs to Frostvale!",
+        ]);
+        return;
+      }
+      if (trainerId === "frieda" && !Game.state.flags.gym3Defeated) {
+        Game.state.flags.gym3Defeated = true;
+        Game.save();
+        Game.resumeOverworld();
+        Game.showDialog([
+          Data.TRAINERS.frieda.winLine,
+          "You received the Glacier Badge!",
+          "Three badges! You've journeyed from Velora Town to the frozen peaks. A true champion!",
         ]);
         return;
       }

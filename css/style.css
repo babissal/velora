@@ -414,6 +414,7 @@ body {
 .type-Aqua   { background: #7cb8ff; }
 .type-Leaf   { background: #8fd06f; }
 .type-Spark  { background: #ffe066; }
+.type-Frost  { background: #a8e0f0; }
 
 /* A button that wraps a creature row (party lists, bag items) */
 .row-btn {
@@ -773,7 +774,7 @@ body {
 /* ===== Type chart panel ===== */
 .types-grid {
   display: grid;
-  grid-template-columns: auto repeat(5, 1fr);
+  grid-template-columns: auto repeat(6, 1fr);
   gap: 3px;
   margin-bottom: 12px;
 }
@@ -781,8 +782,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 2px;
-  font-size: 12px;
+  padding: 7px 1px;
+  font-size: 11px;
   font-weight: bold;
   border-radius: 4px;
   color: #1b2b1b;

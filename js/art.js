@@ -73,6 +73,14 @@
       P("3,-20 -9,-1 -1,-1 -5,13 10,-7 1,-7 8,-20", "#ffe04a", "#c79a00", 2) +
       "</g>";
   }
+  function crystal(x, y, sc) {
+    sc = sc || 1;
+    return '<g transform="translate(' + x + ',' + y + ') scale(' + sc + ')">' +
+      P("0,-20 7,-4 4,11 -4,11 -7,-4", "#bfe9f5", "#4f9cc8", 2.4) +
+      P("0,-20 7,-4 0,2", "#e8f7fc") +
+      P("0,-20 -7,-4 0,2", "#9fd4e8") +
+      "</g>";
+  }
 
   function wrap(inner) {
     return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="creature-svg">' +
@@ -354,6 +362,81 @@
         eyes(48, 56, 11, 6) + mouth(48, 67, 5)
       );
     },
+
+    /* --- Frost line --- */
+    chillet: function () {
+      const b = "#a8e0f0", d = "#3f8fb8", l = "#e0f4fb";
+      return wrap(
+        E(42, 84, 8, 6, b, d) + E(58, 84, 8, 6, b, d) +
+        crystal(50, 42, 0.9) +
+        E(50, 62, 24, 22, b, d) + E(50, 70, 13, 10, l) +
+        eyes(50, 58, 10, 6) + mouth(50, 68, 4.5) +
+        C(35, 65, 3.6, "#7fc8e6") + C(65, 65, 3.6, "#7fc8e6") +
+        crystal(29, 60, 0.4) + crystal(71, 60, 0.4)
+      );
+    },
+    frostnip: function () {
+      const b = "#7fc8e6", d = "#2f6f96", l = "#cdeaf6";
+      return wrap(
+        E(40, 86, 8, 8, b, d) + E(60, 86, 8, 8, b, d) +
+        E(22, 60, 7, 11, b, d) + E(78, 60, 7, 11, b, d) +
+        crystal(38, 36, 0.6) + crystal(50, 30, 0.95) + crystal(62, 36, 0.6) +
+        E(50, 58, 26, 25, b, d) + E(50, 66, 14, 13, l) +
+        eyes(50, 52, 11, 6) + mouth(50, 63, 5) +
+        C(33, 60, 4, "#5fa8cc") + C(67, 60, 4, "#5fa8cc")
+      );
+    },
+    glacelle: function () {
+      const b = "#4f9cc8", d = "#1d4f6e", l = "#9fd4e8";
+      return wrap(
+        PATH("M74 62 Q 94 60 90 40", null, d, 6) + crystal(89, 42, 0.5) +
+        E(26, 82, 9, 12, b, d) + E(44, 87, 9, 12, b, d) + E(58, 87, 9, 12, b, d) + E(74, 82, 9, 12, b, d) +
+        crystal(28, 38, 0.7) + crystal(40, 28, 0.95) + crystal(54, 24, 1.1) + crystal(68, 30, 0.95) + crystal(80, 40, 0.7) +
+        E(50, 56, 34, 26, b, d) + E(50, 64, 19, 14, l) +
+        eyes(50, 48, 13, 6.5, true) + mouth(50, 60, 6) +
+        P("42,63 48,63 44,70", "#fff", d, 1.3) + P("58,63 52,63 56,70", "#fff", d, 1.3)
+      );
+    },
+
+    /* --- Cobalt Cavern creatures --- */
+    craggle: function () {
+      const b = "#8a8276", d = "#4a443c", l = "#b3aa9c";
+      return wrap(
+        E(36, 84, 9, 6, "#6a6258", d) + E(64, 84, 9, 6, "#6a6258", d) +
+        P("24,72 18,44 34,24 62,22 84,40 82,68 60,82", b, d, 3) +
+        P("34,24 62,22 54,44 38,44", l) +
+        P("84,40 82,68 64,60 70,42", "#6e675c") +
+        PATH("M42 54 L 50 60 L 46 68", null, d, 2.2) +
+        PATH("M64 48 L 60 56 L 66 62", null, d, 2.2) +
+        eyes(48, 50, 12, 6) + mouth(48, 64, 5)
+      );
+    },
+    boulderon: function () {
+      const b = "#5f5a50", d = "#2a2620", l = "#837d70";
+      return wrap(
+        E(30, 86, 10, 6, "#46423a", d) + E(50, 88, 10, 6, "#46423a", d) + E(70, 86, 10, 6, "#46423a", d) +
+        P("16,72 10,40 28,14 64,10 90,32 88,70 58,88", b, d, 3.2) +
+        P("28,14 64,10 54,38 34,40", l) +
+        P("90,32 88,70 66,72 70,40", "#4a463c") +
+        PATH("M34 52 L 44 60 L 38 70", null, d, 2.6) +
+        PATH("M62 44 L 56 54 L 64 62", null, d, 2.6) +
+        PATH("M48 30 L 54 40 L 46 46", null, d, 2.4) +
+        eyes(46, 50, 13, 6.5, true) + mouth(46, 64, 6)
+      );
+    },
+    glimmoth: function () {
+      const b = "#b9a0e8", d = "#6a4fa0", l = "#e2d6f6", wing = "#d2c2f0";
+      return wrap(
+        E(26, 54, 16, 22, wing, d) + E(74, 54, 16, 22, wing, d) +
+        C(26, 48, 5, "#f0e8fb") + C(74, 48, 5, "#f0e8fb") +
+        L(44, 30, 36, 14, d, 2) + L(56, 30, 64, 14, d, 2) +
+        C(36, 13, 3, "#ffe04a") + C(64, 13, 3, "#ffe04a") +
+        E(50, 60, 16, 24, b, d) +
+        E(50, 40, 11, 12, b, d) +
+        eyes(50, 38, 8, 5, true) +
+        bolt(50, 70, 0.4)
+      );
+    },
   };
 
 
@@ -438,6 +521,9 @@
     cole:        { skin: "#d8b088", hair: "#1a3a5a", shirt: "#2a72b8", pants: "#16365a", hat: "#2a72b8" },
     scout_tam:   { skin: "#e8c0a0", hair: "#8a5a2a", shirt: "#d4a017", pants: "#6a4a2a", hat: "#c0451a" },
     camper_joss: { skin: "#d8a878", hair: "#3a2a1a", shirt: "#c0451a", pants: "#3a5a2a", hat: null },
+    miner_dolf:  { skin: "#d8a878", hair: "#3a2a1a", shirt: "#7a6a4a", pants: "#4a4030", hat: "#e0b020" },
+    skater_pia:  { skin: "#e8c4a0", hair: "#3a6f9a", shirt: "#5fc0d8", pants: "#2a4a6a", hat: null },
+    frieda:      { skin: "#e8d0c0", hair: "#cfe4f0", shirt: "#7fc8e6", pants: "#3f6f96", hat: "#bfe9f5" },
   };
 
   /* Looks for the everyday townsfolk you can chat with, keyed by the

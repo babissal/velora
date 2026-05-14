@@ -84,6 +84,9 @@
   /* ---- region map data + builder (used by the menu panel AND the
      always-visible strip on the overworld) ---- */
   const REGION_PLACES = [
+    { label: "Frostvale Gym",   maps: ["gym3"],                              requires: "gym2Defeated" },
+    { label: "Frostvale Town",  maps: ["town3", "healing_center3", "shop3"],  requires: "gym2Defeated" },
+    { label: "Cobalt Cavern",   maps: ["route3"],                            requires: "gym2Defeated" },
     { label: "Greendale Gym",   maps: ["gym2"],                             requires: "gymDefeated" },
     { label: "Greendale Town",  maps: ["town2", "healing_center2", "shop2"], requires: "gymDefeated" },
     { label: "Greendale Route", maps: ["route2"],                           requires: "gymDefeated" },
@@ -93,7 +96,8 @@
   ];
 
   function shortLabel(label) {
-    return label.replace("Greendale ", "G·").replace("Velora ", "V·");
+    return label.replace("Greendale ", "G·").replace("Velora ", "V·")
+                .replace("Frostvale ", "F·").replace("Cobalt Cavern", "Cobalt");
   }
 
   /* Render the region into `container`. compact = the small overworld strip. */
@@ -861,7 +865,8 @@
     openCard: function () {
       const s = Game.state;
       const stats = s.stats;
-      const badges = (s.flags.gymDefeated ? 1 : 0) + (s.flags.gym2Defeated ? 1 : 0);
+      const badges = (s.flags.gymDefeated ? 1 : 0) + (s.flags.gym2Defeated ? 1 : 0) +
+                     (s.flags.gym3Defeated ? 1 : 0);
       const totalSpecies = Object.keys(Data.SPECIES).length;
 
       const sec = stats.playSeconds || 0;
@@ -872,7 +877,7 @@
       }
 
       el("card-content").innerHTML =
-        row("Badges", badges + " / 2") +
+        row("Badges", badges + " / 3") +
         row("Coins", s.money) +
         row("Dex caught", s.dex.caught.length + " / " + totalSpecies) +
         row("Party", s.party.length + " / 6") +
@@ -885,7 +890,7 @@
 
     /* ---- Type chart: a reference grid of the damage multipliers ---- */
     openTypes: function () {
-      const ABBREV = { Normal: "Nrm", Ember: "Emb", Aqua: "Aqa", Leaf: "Lef", Spark: "Spk" };
+      const ABBREV = { Normal: "Nrm", Ember: "Emb", Aqua: "Aqa", Leaf: "Lef", Spark: "Spk", Frost: "Frt" };
       const types = Data.TYPES;
       const grid = el("types-grid");
       grid.innerHTML = "";

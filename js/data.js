@@ -10,20 +10,23 @@
 
 /* ---- Types ----
    "Normal" is neutral against everything. The core triangle is
-   Ember/Aqua/Leaf; "Spark" is added for the second area. */
-const TYPES = ["Normal", "Ember", "Aqua", "Leaf", "Spark"];
+   Ember/Aqua/Leaf; "Spark" is added for the second area, and
+   "Frost" arrives with the third area, the Frostvale highlands. */
+const TYPES = ["Normal", "Ember", "Aqua", "Leaf", "Spark", "Frost"];
 
 /* ---- Type chart ----
    TYPE_CHART[attackingType][defendingType] = damage multiplier.
    2 = super effective, 0.5 = not very effective, 1 = normal.
    The triangle: Ember beats Leaf, Leaf beats Aqua, Aqua beats Ember.
-   Spark beats Aqua, but is weak when it hits Leaf. */
+   Spark beats Aqua, but is weak when it hits Leaf.
+   Frost beats Leaf, but melts against Ember (and resists itself). */
 const TYPE_CHART = {
-  Normal: { Normal: 1,   Ember: 1,   Aqua: 1,   Leaf: 1,   Spark: 1 },
-  Ember:  { Normal: 1,   Ember: 1,   Aqua: 0.5, Leaf: 2,   Spark: 1 },
-  Aqua:   { Normal: 1,   Ember: 2,   Aqua: 1,   Leaf: 0.5, Spark: 0.5 },
-  Leaf:   { Normal: 1,   Ember: 0.5, Aqua: 2,   Leaf: 1,   Spark: 1 },
-  Spark:  { Normal: 1,   Ember: 1,   Aqua: 2,   Leaf: 0.5, Spark: 1 },
+  Normal: { Normal: 1,   Ember: 1,   Aqua: 1,   Leaf: 1,   Spark: 1,   Frost: 1   },
+  Ember:  { Normal: 1,   Ember: 1,   Aqua: 0.5, Leaf: 2,   Spark: 1,   Frost: 2   },
+  Aqua:   { Normal: 1,   Ember: 2,   Aqua: 1,   Leaf: 0.5, Spark: 0.5, Frost: 1   },
+  Leaf:   { Normal: 1,   Ember: 0.5, Aqua: 2,   Leaf: 1,   Spark: 1,   Frost: 0.5 },
+  Spark:  { Normal: 1,   Ember: 1,   Aqua: 2,   Leaf: 0.5, Spark: 1,   Frost: 1   },
+  Frost:  { Normal: 1,   Ember: 0.5, Aqua: 1,   Leaf: 2,   Spark: 1,   Frost: 0.5 },
 };
 
 /* Get the total multiplier of a move type against a defending creature.
@@ -60,6 +63,10 @@ const MOVES = {
   "Spark":        { name: "Spark",        type: "Spark",  power: 45, pp: 25, effect: { status: "paralysis", chance: 0.1 } },
   "Volt Snap":    { name: "Volt Snap",    type: "Spark",  power: 70, pp: 15, effect: { status: "paralysis", chance: 0.15 } },
   "Static Field": { name: "Static Field", type: "Spark",  power: 0,  pp: 20, effect: { status: "paralysis", chance: 1 } },
+  "Ice Shard":    { name: "Ice Shard",    type: "Frost",  power: 45, pp: 25 },
+  "Frost Beam":   { name: "Frost Beam",   type: "Frost",  power: 70, pp: 15 },
+  "Icy Wind":     { name: "Icy Wind",     type: "Frost",  power: 35, pp: 20, effect: { statChange: { stat: "spd", stages: -1, target: "enemy" } } },
+  "Rock Throw":   { name: "Rock Throw",   type: "Normal", power: 55, pp: 20 },
   /* Stat-stage moves — power 0, they shift a stat up or down for the battle. */
   "Growl":        { name: "Growl",        type: "Normal", power: 0,  pp: 30, effect: { statChange: { stat: "atk", stages: -1, target: "enemy" } } },
   "Tail Whip":    { name: "Tail Whip",    type: "Normal", power: 0,  pp: 30, effect: { statChange: { stat: "def", stages: -1, target: "enemy" } } },
@@ -331,6 +338,87 @@ const SPECIES = {
     evolvesTo: null, evolveLevel: null,
     color: "#cc5530",
   },
+
+  /* --- Frost line (found on Route 3, the Frostvale highlands) --- */
+  chillet: {
+    id: "chillet", name: "Chillet", types: ["Frost"],
+    baseStats: { hp: 44, atk: 50, def: 50, spd: 58 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Ice Shard" },
+      { level: 8, move: "Harden" },
+      { level: 13, move: "Icy Wind" },
+      { level: 18, move: "Frost Beam" },
+    ],
+    evolvesTo: "frostnip", evolveLevel: 18,
+    color: "#a8e0f0",
+  },
+  frostnip: {
+    id: "frostnip", name: "Frostnip", types: ["Frost"],
+    baseStats: { hp: 60, atk: 64, def: 66, spd: 74 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Ice Shard" },
+      { level: 8, move: "Harden" },
+      { level: 13, move: "Icy Wind" },
+      { level: 18, move: "Frost Beam" },
+    ],
+    evolvesTo: "glacelle", evolveLevel: 34,
+    color: "#7fc8e6",
+  },
+  glacelle: {
+    id: "glacelle", name: "Glacelle", types: ["Frost"],
+    baseStats: { hp: 80, atk: 82, def: 90, spd: 94 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Ice Shard" },
+      { level: 8, move: "Harden" },
+      { level: 13, move: "Icy Wind" },
+      { level: 18, move: "Frost Beam" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#4f9cc8",
+  },
+
+  /* --- Cobalt Cavern creatures (Route 3) --- */
+  craggle: {
+    id: "craggle", name: "Craggle", types: ["Normal"],
+    baseStats: { hp: 60, atk: 64, def: 82, spd: 30 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Scratch" },
+      { level: 7, move: "Harden" },
+      { level: 12, move: "Rock Throw" },
+      { level: 18, move: "Headbutt" },
+    ],
+    evolvesTo: "boulderon", evolveLevel: 24,
+    color: "#8a8276",
+  },
+  boulderon: {
+    id: "boulderon", name: "Boulderon", types: ["Normal"],
+    baseStats: { hp: 92, atk: 94, def: 112, spd: 42 },
+    learnset: [
+      { level: 1, move: "Tackle" },
+      { level: 1, move: "Scratch" },
+      { level: 7, move: "Harden" },
+      { level: 12, move: "Rock Throw" },
+      { level: 18, move: "Headbutt" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#5f5a50",
+  },
+  glimmoth: {
+    id: "glimmoth", name: "Glimmoth", types: ["Spark"],
+    baseStats: { hp: 52, atk: 58, def: 48, spd: 86 },
+    learnset: [
+      { level: 1, move: "Quick Jab" },
+      { level: 1, move: "Spark" },
+      { level: 9, move: "Agility" },
+      { level: 15, move: "Volt Snap" },
+    ],
+    evolvesTo: null, evolveLevel: null,
+    color: "#b9a0e8",
+  },
 };
 
 /* The three creatures the player can pick at the start. */
@@ -554,6 +642,36 @@ const TRAINERS = {
     loseLine: "Cole: The current was too strong for you this time.",
     afterLine: "Leader Cole: A true trainer keeps growing. I hope our paths cross again.",
   },
+  miner_dolf: {
+    id: "miner_dolf",
+    name: "Miner Dolf",
+    team: [ ["craggle", 16], ["pebblit", 17] ],
+    reward: 300,
+    intro: "Miner Dolf: You wandered into my cavern? Then you'll battle for the right to pass!",
+    winLine: "Miner Dolf: Solid team. Tough as the rock down here.",
+    loseLine: "Miner Dolf: Ha! These tunnels harden a trainer.",
+    afterLine: "Miner Dolf: Mind the ice up ahead — it's slick, and so are its creatures.",
+  },
+  skater_pia: {
+    id: "skater_pia",
+    name: "Skater Pia",
+    team: [ ["chillet", 17], ["glimmoth", 18] ],
+    reward: 340,
+    intro: "Skater Pia: The frost never slows me down. Let's see if it slows you!",
+    winLine: "Skater Pia: Whoa, you glide through battles. Frostvale's just ahead!",
+    loseLine: "Skater Pia: Too cool for you, huh?",
+    afterLine: "Skater Pia: Leader Frieda's Frost team is no joke. Pack an Ember move!",
+  },
+  frieda: {
+    id: "frieda",
+    name: "Leader Frieda",
+    team: [ ["chillet", 20], ["frostnip", 22], ["glacelle", 25] ],
+    reward: 1000,
+    intro: "Frieda: So you've climbed all the way to Frostvale. Let's see if your bond can weather the cold!",
+    winLine: "Frieda: Magnificent. The Glacier Badge is yours — you've earned every shard of it.",
+    loseLine: "Frieda: The cold tests everyone. Come back when you're ready.",
+    afterLine: "Leader Frieda: Three badges! You've grown into a trainer Velora can be proud of.",
+  },
 };
 
 
@@ -572,6 +690,8 @@ const TILES = {
   5:  { name: "wall",      walkable: false, color: "#6f5d4a" },
   6:  { name: "door",      walkable: true,  color: "#c08a3a", door: true },
   8:  { name: "npc",       walkable: false, color: "#e6dfc6", npc: true },
+  /* Snowy ground — like tall grass, stepping here may trigger an encounter. */
+  11: { name: "snow",      walkable: true,  color: "#dcebf2", grass: true },
   /* Decorative furniture — non-walkable, drawn with a small icon. */
   7:  { name: "counter",   walkable: false, color: "#b88a4a", decor: "counter" },
   9:  { name: "plant",     walkable: false, color: "#e6dfc6", decor: "plant" },
@@ -781,7 +901,7 @@ const MAPS = {
   town2: {
     name: "Greendale Town",
     grid: [
-      [2,2,2,2,2,2,2,2,2,2,2,2],
+      [2,2,2,2,2,2,6,2,2,2,2,2],
       [2,0,5,5,5,0,0,5,5,5,0,2],
       [2,0,5,6,5,0,0,5,6,5,0,2],
       [2,0,0,0,0,0,0,0,0,8,0,2],
@@ -797,6 +917,9 @@ const MAPS = {
       { x: 8, y: 2, to: "shop2",           toX: 3, toY: 4 },
       { x: 5, y: 6, to: "gym2",            toX: 4, toY: 7 },
       { x: 5, y: 9, to: "route2",          toX: 6, toY: 1 },
+      { x: 6, y: 0, to: "route3",          toX: 6, toY: 10,
+        requires: "gym2Defeated",
+        requiredMessage: "A guide stands at the trailhead. \"The Cobalt Cavern road climbs to Frostvale — earn the Tide Badge first, then I'll let you through.\"" },
     ],
     npcs: {
       "9,3": { kind: "person", look: "fisher", lines: [
@@ -805,8 +928,146 @@ const MAPS = {
       ] },
       "2,4": { kind: "person", look: "villager", lines: [
         "Two badges already? You're becoming quite the trainer.",
-        "They say there's even more of Velora to explore beyond Greendale... someday.",
+        "The trail north leads through the Cobalt Cavern and up to Frostvale Town — it's bitter cold, so bundle up your team!",
       ] },
+    },
+    encounters: null,
+  },
+
+  route3: {
+    name: "Cobalt Cavern",
+    grid: [
+      [2,2,2,2,2,2,6,2,2,2,2,2],
+      [2,0,0,11,11,3,3,11,11,0,0,2],
+      [2,0,11,11,11,3,3,11,11,11,0,2],
+      [2,5,5,0,0,3,3,0,0,5,5,2],
+      [2,5,0,0,3,3,3,3,0,0,5,2],
+      [2,0,0,3,3,11,11,3,3,0,0,2],
+      [2,0,11,3,3,11,11,3,3,11,0,2],
+      [2,5,0,0,3,3,3,3,0,0,5,2],
+      [2,5,5,0,0,3,3,0,0,5,5,2],
+      [2,0,11,11,11,3,3,11,11,11,0,2],
+      [2,0,0,11,11,3,3,11,11,0,0,2],
+      [2,2,2,2,2,2,6,2,2,2,2,2],
+    ],
+    warps: [
+      { x: 6, y: 0,  to: "town3", toX: 5, toY: 8 },
+      { x: 6, y: 11, to: "town2", toX: 6, toY: 1 },
+    ],
+    npcs: {
+      "2,4": { kind: "trainer", trainer: "miner_dolf", sight: { dir: "right", range: 4 } },
+      "9,7": { kind: "trainer", trainer: "skater_pia", sight: { dir: "left", range: 4 } },
+      "9,2": { kind: "person", look: "elder", lines: [
+        "The cavern stays frozen the year round — even the rocks wear frost.",
+        "Frost creatures shrug off the cold, but a single Ember move sends them packing.",
+      ] },
+    },
+    groundItems: [
+      { x: 1, y: 1, item: "super_potion" },
+      { x: 10, y: 10, item: "great_orb" },
+      { x: 1, y: 10, item: "ether" },
+    ],
+    encounters: {
+      species: [
+        "chillet", "chillet", "craggle", "craggle",
+        "glimmoth", "glimmoth", "chillet", "frostnip",
+      ],
+      minLevel: 14,
+      maxLevel: 20,
+    },
+  },
+
+  town3: {
+    name: "Frostvale Town",
+    grid: [
+      [2,2,2,2,2,2,2,2,2,2,2,2],
+      [2,0,5,5,5,0,0,5,5,5,0,2],
+      [2,0,5,6,5,0,0,5,6,5,0,2],
+      [2,0,0,0,0,0,0,0,0,8,0,2],
+      [2,0,8,0,0,0,0,0,0,0,0,2],
+      [2,0,0,0,5,5,5,0,0,0,0,2],
+      [2,0,0,0,5,6,5,0,0,0,0,2],
+      [2,0,0,0,0,3,0,0,0,0,0,2],
+      [2,2,2,2,2,3,2,2,2,2,2,2],
+      [2,2,2,2,2,6,2,2,2,2,2,2],
+    ],
+    warps: [
+      { x: 3, y: 2, to: "healing_center3", toX: 3, toY: 4 },
+      { x: 8, y: 2, to: "shop3",           toX: 3, toY: 4 },
+      { x: 5, y: 6, to: "gym3",            toX: 4, toY: 7 },
+      { x: 5, y: 9, to: "route3",          toX: 6, toY: 1 },
+    ],
+    npcs: {
+      "9,3": { kind: "person", look: "villager", lines: [
+        "Welcome to Frostvale — the highest town in all of Velora.",
+        "Leader Frieda's Frost team is fierce. Ember moves are your best friend up here.",
+      ] },
+      "2,4": { kind: "person", look: "kid", lines: [
+        "It snows here almost every day!",
+        "I'm gonna catch a Glacelle when I'm older. They're so cool — literally!",
+      ] },
+    },
+    encounters: null,
+  },
+
+  healing_center3: {
+    name: "Healing Center",
+    grid: [
+      [5,5,5,5,5,5,5,5],
+      [5,12,0,0,0,0,9,5],
+      [5,0,0,8,7,7,9,5],
+      [5,0,0,0,0,0,0,5],
+      [5,9,0,0,0,0,0,5],
+      [5,0,0,6,0,0,0,5],
+      [5,5,5,5,5,5,5,5],
+    ],
+    warps: [
+      { x: 3, y: 5, to: "town3", toX: 3, toY: 3 },
+    ],
+    npcs: {
+      "3,2": { kind: "nurse" },
+    },
+    encounters: null,
+  },
+
+  shop3: {
+    name: "Frostvale Shop",
+    grid: [
+      [5,5,5,5,5,5,5,5],
+      [5,10,10,0,0,10,10,5],
+      [5,0,0,8,7,7,0,5],
+      [5,0,0,0,0,0,0,5],
+      [5,9,0,0,0,0,9,5],
+      [5,0,0,6,0,0,0,5],
+      [5,5,5,5,5,5,5,5],
+    ],
+    warps: [
+      { x: 3, y: 5, to: "town3", toX: 8, toY: 3 },
+    ],
+    npcs: {
+      "3,2": { kind: "shopkeeper" },
+    },
+    encounters: null,
+  },
+
+  gym3: {
+    name: "Frostvale Gym",
+    grid: [
+      [5,5,5,5,5,5,5,5,5],
+      [5,0,0,0,8,0,0,0,5],
+      [5,0,0,0,0,0,0,0,5],
+      [5,0,11,11,0,11,11,0,5],
+      [5,0,0,0,0,0,0,0,5],
+      [5,0,11,11,0,11,11,0,5],
+      [5,0,0,0,3,0,0,0,5],
+      [5,0,0,0,3,0,0,0,5],
+      [5,5,5,5,6,5,5,5,5],
+    ],
+    warps: [
+      { x: 4, y: 8, to: "town3", toX: 5, toY: 7 },
+    ],
+    npcs: {
+      "4,1": { kind: "gymleader", trainer: "frieda", flag: "gym3Defeated" },
     },
     encounters: null,
   },
