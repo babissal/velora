@@ -1,0 +1,8 @@
+{
+  "appId": "com.velora.game",
+  "appName": "Velora",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  }
+}

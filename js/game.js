@@ -129,12 +129,12 @@
 
   /* ===== Saving and loading (uses the browser's localStorage) ===== */
   Game.hasSave = function () {
-    try { return localStorage.getItem(SAVE_KEY) !== null; }
+    try { return window.GameStorage.getItem(SAVE_KEY) !== null; }
     catch (e) { return false; }
   };
   Game.save = function () {
     try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(Game.state));
+      window.GameStorage.setItem(SAVE_KEY, JSON.stringify(Game.state));
       return true;
     } catch (e) {
       return false;
@@ -142,7 +142,7 @@
   };
   Game.load = function () {
     try {
-      const raw = localStorage.getItem(SAVE_KEY);
+      const raw = window.GameStorage.getItem(SAVE_KEY);
       if (!raw) return false;
       Game.state = JSON.parse(raw);
       /* Fill in anything an older save might be missing. */
@@ -162,7 +162,7 @@
     }
   };
   Game.deleteSave = function () {
-    try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+    try { window.GameStorage.removeItem(SAVE_KEY); } catch (e) {}
   };
 
 

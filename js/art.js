@@ -440,15 +440,27 @@
     camper_joss: { skin: "#d8a878", hair: "#3a2a1a", shirt: "#c0451a", pants: "#3a5a2a", hat: null },
   };
 
-  function npcArt(kind, trainerId) {
-    let look;
-    if (kind === "nurse") look = NPC_LOOKS.nurse;
-    else if (kind === "shopkeeper") look = NPC_LOOKS.shopkeeper;
-    else if (trainerId && TRAINER_LOOKS[trainerId]) look = TRAINER_LOOKS[trainerId];
-    else look = { skin: "#e0b088", hair: "#444444", shirt: "#8a8a8a", pants: "#444444", hat: null };
+  /* Looks for the everyday townsfolk you can chat with, keyed by the
+     NPC's `look` field. */
+  const VILLAGER_LOOKS = {
+    elder:    { skin: "#e8c8a8", hair: "#d8d8d0", shirt: "#7a6a8a", pants: "#4a4458", hat: null },
+    farmer:   { skin: "#d8a878", hair: "#3a2a1a", shirt: "#6a9a4a", pants: "#5a4a2a", hat: "#d8b86a" },
+    fisher:   { skin: "#e0b890", hair: "#2a3a4a", shirt: "#3a7a9a", pants: "#2a3a5a", hat: "#3a7a9a" },
+    kid:      { skin: "#f0c89a", hair: "#8a5a2a", shirt: "#e0a020", pants: "#3a6a8a", hat: null },
+    villager: { skin: "#e0b088", hair: "#5a4030", shirt: "#b06a4a", pants: "#4a4030", hat: null },
+  };
+
+  function npcArt(kind, trainerId, look) {
+    let person;
+    if (kind === "nurse") person = NPC_LOOKS.nurse;
+    else if (kind === "shopkeeper") person = NPC_LOOKS.shopkeeper;
+    else if (trainerId && TRAINER_LOOKS[trainerId]) person = TRAINER_LOOKS[trainerId];
+    else if (look && VILLAGER_LOOKS[look]) person = VILLAGER_LOOKS[look];
+    else if (kind === "person") person = VILLAGER_LOOKS.villager;
+    else person = { skin: "#e0b088", hair: "#444444", shirt: "#8a8a8a", pants: "#444444", hat: null };
     return personSVG({
-      skin: look.skin, hair: look.hair, shirt: look.shirt,
-      pants: look.pants, hat: look.hat, facing: "down",
+      skin: person.skin, hair: person.hair, shirt: person.shirt,
+      pants: person.pants, hat: person.hat, facing: "down",
     });
   }
 

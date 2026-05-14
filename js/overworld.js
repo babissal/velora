@@ -32,7 +32,7 @@
           const npc = map.npcs[x + "," + y];
           if (npc) {
             cell.classList.add("tile-npc");
-            cell.innerHTML = window.CharacterArt.npc(npc.kind, npc.trainer);
+            cell.innerHTML = window.CharacterArt.npc(npc.kind, npc.trainer, npc.look);
           } else if (tile.decor) {
             cell.innerHTML = window.TileArt.decor(tile.decor);
           }
@@ -150,7 +150,10 @@
       const npc = map.npcs[fx + "," + fy];
       if (!npc) return;
 
-      if (npc.kind === "nurse") {
+      if (npc.kind === "person") {
+        Game.showDialog(npc.lines || ["..."]);
+
+      } else if (npc.kind === "nurse") {
         Game.healParty();
         Game.save();
         Game.showDialog([

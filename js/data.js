@@ -597,8 +597,8 @@ const MAPS = {
       [2,2,2,2,2,2,6,2,2,2,2,2],
       [2,0,0,5,5,5,0,5,5,5,0,2],
       [2,0,0,5,6,5,0,5,6,5,0,2],
-      [2,0,0,0,0,0,0,0,0,0,0,2],
-      [2,0,0,0,0,3,3,0,0,0,0,2],
+      [2,0,0,8,0,0,0,0,0,0,0,2],
+      [2,0,0,0,0,3,3,0,8,0,0,2],
       [2,0,0,0,0,3,3,0,0,0,0,2],
       [2,0,0,0,0,3,3,0,0,0,0,2],
       [2,2,2,2,2,3,3,2,2,2,2,2],
@@ -614,7 +614,16 @@ const MAPS = {
         requires: "gymDefeated",
         requiredMessage: "A guard blocks the path north. \"The route ahead is dangerous — come back once you've beaten the Velora Gym.\"" },
     ],
-    npcs: {},
+    npcs: {
+      "3,3": { kind: "person", look: "kid", lines: [
+        "My big sister raised a Pyrunt all on her own!",
+        "It started out as a tiny Cindlet — just like the ones the Professor hands out.",
+      ] },
+      "8,4": { kind: "person", look: "elder", lines: [
+        "Velora Town has stood among these trees for generations.",
+        "The Healing Center to the northwest mends your whole team for free. Never be shy about stopping in.",
+      ] },
+    },
     encounters: null,
   },
 
@@ -626,7 +635,7 @@ const MAPS = {
       [2,1,1,0,3,3,3,0,1,1,1,2],
       [2,1,1,0,3,3,3,0,1,1,1,2],
       [2,1,1,0,3,3,3,0,1,1,1,2],
-      [2,0,0,0,3,3,3,0,0,0,0,2],
+      [2,0,0,0,3,3,3,0,0,8,0,2],
       [2,0,0,3,3,3,3,3,0,0,0,2],
       [2,1,1,3,3,3,3,3,1,1,0,2],
       [2,1,1,3,3,3,3,3,1,1,0,2],
@@ -642,6 +651,10 @@ const MAPS = {
     npcs: {
       "3,1": { kind: "trainer", trainer: "scout_tam" },
       "7,9": { kind: "trainer", trainer: "camper_joss" },
+      "9,5": { kind: "person", look: "fisher", lines: [
+        "Tall grass is where wild creatures love to hide.",
+        "Wear one down in battle before you throw a Capture Orb — a tired creature is far easier to catch.",
+      ] },
     },
     encounters: {
       species: [
@@ -719,7 +732,7 @@ const MAPS = {
     name: "Greendale Route",
     grid: [
       [2,2,2,2,2,2,6,2,2,2,2,2],
-      [2,0,0,0,0,3,3,0,0,0,0,2],
+      [2,0,0,0,0,3,3,0,0,8,0,2],
       [2,1,1,0,0,3,3,0,1,1,0,2],
       [2,1,1,0,0,3,3,0,1,1,0,2],
       [2,1,1,3,3,3,3,3,1,1,0,2],
@@ -737,6 +750,10 @@ const MAPS = {
     ],
     npcs: {
       "3,5": { kind: "trainer", trainer: "hiker_bex" },
+      "9,1": { kind: "person", look: "elder", lines: [
+        "These Greendale hills are steeper than they look.",
+        "Spark creatures up here are quick. Aqua types dread them — but Leaf types just shrug off the jolts.",
+      ] },
     },
     encounters: {
       species: [
@@ -754,8 +771,8 @@ const MAPS = {
       [2,2,2,2,2,2,2,2,2,2,2,2],
       [2,0,5,5,5,0,0,5,5,5,0,2],
       [2,0,5,6,5,0,0,5,6,5,0,2],
-      [2,0,0,0,0,0,0,0,0,0,0,2],
-      [2,0,0,0,0,0,0,0,0,0,0,2],
+      [2,0,0,0,0,0,0,0,0,8,0,2],
+      [2,0,8,0,0,0,0,0,0,0,0,2],
       [2,0,0,0,5,5,5,0,0,0,0,2],
       [2,0,0,0,5,6,5,0,0,0,0,2],
       [2,0,0,0,0,3,0,0,0,0,0,2],
@@ -768,7 +785,16 @@ const MAPS = {
       { x: 5, y: 6, to: "gym2",            toX: 4, toY: 7 },
       { x: 5, y: 9, to: "route2",          toX: 6, toY: 1 },
     ],
-    npcs: {},
+    npcs: {
+      "9,3": { kind: "person", look: "fisher", lines: [
+        "The sea breeze keeps Greendale's creatures lively all year round.",
+        "Leader Cole at the gym trains Aqua creatures. Bring along some Leaf or Spark moves!",
+      ] },
+      "2,4": { kind: "person", look: "villager", lines: [
+        "Two badges already? You're becoming quite the trainer.",
+        "They say there's even more of Velora to explore beyond Greendale... someday.",
+      ] },
+    },
     encounters: null,
   },
 
