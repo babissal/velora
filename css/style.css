@@ -20,6 +20,9 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 16px;
+  /* Disable double-tap-to-zoom across the game (still allows pinch zoom)
+     so quick repeated taps on the touch controls don't zoom the page. */
+  touch-action: manipulation;
 }
 
 #game {
@@ -181,9 +184,9 @@ body {
 }
 .dpad {
   display: grid;
-  grid-template-columns: repeat(3, 48px);
-  grid-template-rows: repeat(3, 48px);
-  gap: 3px;
+  grid-template-columns: repeat(3, 58px);
+  grid-template-rows: repeat(3, 58px);
+  gap: 4px;
 }
 .dpad-btn,
 .touch-a {
@@ -198,7 +201,7 @@ body {
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-.dpad-btn { font-size: 16px; }
+.dpad-btn { font-size: 20px; }
 .dpad-btn:active,
 .touch-a:active { background: #ffd24a; transform: translateY(2px); }
 .dpad-up    { grid-column: 2; grid-row: 1; }
@@ -240,10 +243,10 @@ body {
   :root { --tile: 22px; }
   .sprite { width: 76px; height: 76px; }
   .dpad {
-    grid-template-columns: repeat(3, 44px);
-    grid-template-rows: repeat(3, 44px);
+    grid-template-columns: repeat(3, 54px);
+    grid-template-rows: repeat(3, 54px);
   }
-  .touch-a { width: 62px; height: 62px; font-size: 22px; }
+  .touch-a { width: 68px; height: 68px; font-size: 24px; }
   #starter-choices { gap: 10px; }
   .starter-card { width: 150px; }
 }
