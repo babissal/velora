@@ -154,6 +154,29 @@
     render: function () {
       this.renderField();
       this.renderMenu();
+      this.playFx();
+    },
+
+    /* Play any queued hit effects — a type-coloured burst over the
+       struck creature's sprite — then clear the queue. */
+    playFx: function () {
+      const battle = Game.battle;
+      if (!battle || !battle.fx || battle.fx.length === 0) return;
+      const queued = battle.fx.slice();
+      battle.fx.length = 0;
+
+      queued.forEach(function (effect, i) {
+        setTimeout(function () {
+          const slot = el(effect.target + "-sprite");
+          if (!slot) return;
+          const burst = document.createElement("div");
+          burst.className = "move-fx type-" + effect.type;
+          slot.appendChild(burst);
+          setTimeout(function () {
+            if (burst.parentNode) burst.parentNode.removeChild(burst);
+          }, 420);
+        }, i * 140);
+      });
     },
 
     /* Briefly shake a sprite if its creature just lost HP. */

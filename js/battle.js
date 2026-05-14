@@ -126,6 +126,7 @@
     this.needsSwitch = false;  // active creature fainted, party still has fighters
     this.caught = null;        // the creature, if one was caught
     this.moneyReward = 0;
+    this.fx = [];              // queued hit effects for the battle screen
 
     /* Temporary stat stages for each side; reset when a creature is sent out. */
     this.playerStages = freshStages();
@@ -207,6 +208,12 @@
       const result = calculateDamage(attacker, defender, move, atkStages, defStages);
       defender.currentHp -= result.damage;
       if (defender.currentHp < 0) defender.currentHp = 0;
+
+      /* Queue a type-coloured impact burst on whichever side was hit. */
+      this.fx.push({
+        target: (defender === this.active()) ? "player" : "enemy",
+        type: moveData.type,
+      });
 
       if (result.effectiveness > 1) { this.addLog("It's super effective!"); sfx("superEffective"); }
       else if (result.effectiveness < 1) { this.addLog("It's not very effective..."); sfx("notVeryEffective"); }
