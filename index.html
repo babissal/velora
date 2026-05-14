@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velora — A Creature RPG</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="game">
+
+    <!-- ============ Title screen ============ -->
+    <div id="title-screen" class="screen">
+      <h1>VELORA</h1>
+      <p class="subtitle">A creature-collecting adventure</p>
+      <div id="title-buttons" class="title-buttons"></div>
+    </div>
+
+    <!-- ============ Choose starter screen ============ -->
+    <div id="starter-screen" class="screen hidden">
+      <h2 class="centered">Choose your first companion</h2>
+      <div id="starter-choices"></div>
+    </div>
+
+    <!-- ============ Overworld screen ============ -->
+    <div id="overworld-screen" class="screen hidden">
+      <div id="hud" class="hud">
+        <span id="hud-map" class="hud-map"></span>
+        <span id="hud-money" class="hud-money"></span>
+        <button id="hud-menu-btn" class="btn small">Menu (M)</button>
+      </div>
+      <div class="map-wrapper">
+        <div id="map-grid" class="map-grid"></div>
+      </div>
+      <div id="overworld-mini-map" class="mini-region"></div>
+      <p class="hint">Arrow keys / WASD to move &middot; Space to talk &middot; M for menu</p>
+    </div>
+
+    <!-- ============ Battle screen ============ -->
+    <div id="battle-screen" class="screen hidden">
+      <div class="battlefield">
+        <div class="creature-slot enemy-slot">
+          <div class="info-box">
+            <div class="info-name"><span class="name-group"><span id="enemy-name"></span><span id="enemy-status" class="status-badge"></span></span> <span class="lvl">Lv<span id="enemy-level"></span></span></div>
+            <div class="hp-bar"><div id="enemy-hp-fill" class="hp-fill"></div></div>
+            <div class="hp-text"><span id="enemy-hp-text"></span></div>
+            <div id="enemy-stages" class="stage-badges"></div>
+          </div>
+          <div id="enemy-sprite" class="sprite"></div>
+        </div>
+        <div class="creature-slot player-slot">
+          <div id="player-sprite" class="sprite"></div>
+          <div class="info-box">
+            <div class="info-name"><span class="name-group"><span id="player-name"></span><span id="player-status" class="status-badge"></span></span> <span class="lvl">Lv<span id="player-level"></span></span></div>
+            <div class="hp-bar"><div id="player-hp-fill" class="hp-fill"></div></div>
+            <div class="hp-text"><span id="player-hp-text"></span></div>
+            <div class="xp-bar"><div id="player-xp-fill" class="xp-fill"></div></div>
+            <div class="xp-text">XP: <span id="player-xp-text"></span></div>
+            <div id="player-stages" class="stage-badges"></div>
+          </div>
+        </div>
+      </div>
+      <div id="battle-log" class="battle-log"></div>
+      <div id="battle-menu" class="menu"></div>
+    </div>
+
+    <!-- ============ Overlays (pop-ups shown on top of a screen) ============ -->
+
+    <!-- Dialog text box -->
+    <div id="dialog-box" class="overlay dialog-overlay hidden">
+      <div class="dialog-panel">
+        <p id="dialog-text"></p>
+        <div id="dialog-choices" class="dialog-choices hidden">
+          <button id="dialog-yes" class="btn">Yes</button>
+          <button id="dialog-no" class="btn back-btn">No</button>
+        </div>
+        <div id="dialog-hint" class="dialog-hint">&#9660; Space</div>
+      </div>
+    </div>
+
+    <!-- Pause menu -->
+    <div id="menu-overlay" class="overlay hidden">
+      <div class="panel small-panel">
+        <h3>Menu</h3>
+        <button id="menu-party" class="btn wide">Party</button>
+        <button id="menu-bag" class="btn wide">Bag</button>
+        <button id="menu-dex" class="btn wide">Dex</button>
+        <button id="menu-map" class="btn wide">Map</button>
+        <button id="menu-save" class="btn wide">Save Game</button>
+        <button id="menu-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Party panel -->
+    <div id="party-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Party &amp; Storage</h3>
+        <div id="party-list" class="panel-list"></div>
+        <button id="party-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Bag panel -->
+    <div id="bag-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Bag</h3>
+        <div id="bag-list" class="panel-list"></div>
+        <button id="bag-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Learn-a-move panel (shown after battle when a creature is full on moves) -->
+    <div id="learn-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>New Move</h3>
+        <div id="learn-content"></div>
+      </div>
+    </div>
+
+    <!-- Region map panel -->
+    <div id="map-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Velora Region</h3>
+        <div id="region-map" class="region-map"></div>
+        <button id="map-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Dex panel -->
+    <div id="dex-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Velora Dex</h3>
+        <p class="dex-count-line">Caught <span id="dex-caught"></span> / <span id="dex-total"></span> &middot; Seen <span id="dex-seen"></span></p>
+        <div id="dex-list" class="panel-list"></div>
+        <button id="dex-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Shop panel -->
+    <div id="shop-panel" class="overlay hidden">
+      <div class="panel">
+        <h3>Velora Shop</h3>
+        <p class="shop-money-line">Coins: <span id="shop-money"></span></p>
+        <div id="shop-list" class="panel-list"></div>
+        <button id="shop-close" class="btn wide back-btn">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts load in order. data first (content), then game (the hub),
+       then the systems that use them, then main (startup). -->
+  <script src="js/data.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/overworld.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
