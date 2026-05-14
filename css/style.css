@@ -8,6 +8,9 @@
   padding: 0;
 }
 
+/* Overworld tile size — shrinks on small screens so the map fits. */
+:root { --tile: 40px; }
+
 body {
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   background: #1b2b1b;
@@ -134,8 +137,8 @@ body {
   gap: 0;
 }
 .tile {
-  width: 40px;
-  height: 40px;
+  width: var(--tile);
+  height: var(--tile);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,6 +213,40 @@ body {
   background: #ff9a8a;
 }
 .touch-a:active { background: #ff8068; }
+
+
+/* ===== Responsive layout for tablets and phones ===== */
+@media (max-width: 760px) {
+  /* Tall content must scroll from the top, not be centred (which hides
+     the ends of the page off-screen on small devices). */
+  body { align-items: flex-start; }
+  :root { --tile: 32px; }
+}
+
+@media (max-width: 560px) {
+  :root { --tile: 26px; }
+  body { padding: 6px; }
+  #game { padding: 8px; }
+  #title-screen h1 { font-size: 40px; letter-spacing: 4px; }
+
+  /* Battle screen: let the info box flex instead of a fixed 240px. */
+  .creature-slot { gap: 8px; }
+  .info-box { width: auto; flex: 1 1 0; min-width: 0; }
+  .sprite { width: 92px; height: 92px; }
+  .battle-log { height: 88px; }
+}
+
+@media (max-width: 430px) {
+  :root { --tile: 22px; }
+  .sprite { width: 76px; height: 76px; }
+  .dpad {
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
+  }
+  .touch-a { width: 62px; height: 62px; font-size: 22px; }
+  #starter-choices { gap: 10px; }
+  .starter-card { width: 150px; }
+}
 
 
 /* ===== Battle screen ===== */

@@ -19,7 +19,7 @@
       const grid = document.getElementById("map-grid");
 
       grid.innerHTML = "";
-      grid.style.gridTemplateColumns = "repeat(" + map.grid[0].length + ", 40px)";
+      grid.style.gridTemplateColumns = "repeat(" + map.grid[0].length + ", var(--tile))";
 
       for (let y = 0; y < map.grid.length; y++) {
         for (let x = 0; x < map.grid[y].length; x++) {
